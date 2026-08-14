@@ -186,7 +186,7 @@
         }
 
         /* ============================================================
-                   HERO - Dengan Background Foto
+                   HERO
                    ============================================================ */
         .hero {
             min-height: 100vh;
@@ -1123,10 +1123,117 @@
         }
 
         /* ============================================================
+                   EDITOR SECTION - HALAMAN KHUSUS EDITOR
+                   ============================================================ */
+        .editors {
+            background: white;
+            padding: 80px 5%;
+        }
+
+        .editors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .editor-card {
+            background: #f8fafc;
+            border-radius: 25px;
+            padding: 35px 30px;
+            text-align: center;
+            border: 1px solid #e5e7eb;
+            transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .editor-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 25px;
+            background: var(--gradient);
+            opacity: 0;
+            transition: 0.4s ease;
+        }
+
+        .editor-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: var(--shadow-hover);
+            border-color: transparent;
+        }
+
+        .editor-card:hover::before {
+            opacity: 0.04;
+        }
+
+        .editor-card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        .editor-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #e5e7eb;
+            margin: 0 auto 20px;
+            display: block;
+            background: #ede9fe;
+            transition: 0.4s ease;
+        }
+
+        .editor-card:hover .editor-avatar {
+            border-color: #6366f1;
+            transform: scale(1.05) rotate(-3deg);
+            box-shadow: 0 15px 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .editor-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .editor-role {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 50px;
+            background: rgba(99, 102, 241, 0.1);
+            margin-bottom: 12px;
+        }
+
+        .editor-desc {
+            color: var(--gray);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .editor-badge {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 6px 18px;
+            border-radius: 50px;
+            background: var(--gradient);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================================
                    CTA
                    ============================================================ */
         .cta {
             background: white;
+            padding-top: 0;
         }
 
         .cta-box {
@@ -1334,6 +1441,10 @@
             .activity-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            .editors-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 750px) {
@@ -1410,6 +1521,11 @@
                 grid-template-columns: 1fr;
             }
 
+            .editors-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+
             .cta-box {
                 padding: 45px 25px;
             }
@@ -1482,6 +1598,7 @@
                 <li><a href="#values">Nilai Kelas</a></li>
                 <li><a href="#members">Anggota</a></li>
                 <li><a href="#activities">Aktivitas</a></li>
+                <li><a href="#editors">Editor</a></li>
             </ul>
         </div>
     </header>
@@ -1737,6 +1854,43 @@
             </div>
         </section>
 
+        <!-- ==================== EDITOR SECTION ==================== -->
+        <section class="editors" id="editors">
+            <div class="section-container">
+                <div class="section-heading reveal">
+                    <div class="section-label">Editor Team</div>
+                    <h2>Tim <span class="gradient-text">Editor</span></h2>
+                    <p>Mereka yang bekerja di balik layar untuk menghadirkan website ini.</p>
+                </div>
+
+                <div class="editors-grid">
+                    <!-- Editor 1 - Michael -->
+                    <div class="editor-card reveal">
+                        <img class="editor-avatar" src="foto m" alt="Michael" onerror="this.outerHTML='<div class=editor-avatar style=display:flex;align-items:center;justify-content:center;font-size:3rem;background:linear-gradient(135deg,#ede9fe,#fce7f3);>👤</div>'">
+                        <div class="editor-name">Michael</div>
+                        <div class="editor-role">✏️ Lead Editor</div>
+                        <p class="editor-desc">
+                            Bertanggung jawab atas pengembangan dan pemeliharaan website kelas X-9 Invictus.
+                            Memastikan setiap halaman berfungsi dengan baik dan terlihat profesional.
+                        </p>
+                        <span class="editor-badge">Member #22</span>
+                    </div>
+
+                    <!-- Editor 2 - Naufal -->
+                    <div class="editor-card reveal">
+                        <img class="editor-avatar" src="foto n" alt="Naufal" onerror="this.outerHTML='<div class=editor-avatar style=display:flex;align-items:center;justify-content:center;font-size:3rem;background:linear-gradient(135deg,#ede9fe,#fce7f3);>👤</div>'">
+                        <div class="editor-name">Naufal</div>
+                        <div class="editor-role">🎨 UI/UX Designer</div>
+                        <p class="editor-desc">
+                            Merancang tampilan dan pengalaman pengguna website. Memastikan setiap elemen
+                            terlihat menarik, responsif, dan mudah digunakan oleh semua anggota kelas.
+                        </p>
+                        <span class="editor-badge">Member #24</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- ==================== CTA ==================== -->
         <section class="cta">
             <div class="cta-box reveal">
@@ -1770,6 +1924,7 @@
                         <li><a href="#values">Nilai Kelas</a></li>
                         <li><a href="#members">Anggota</a></li>
                         <li><a href="#activities">Aktivitas</a></li>
+                        <li><a href="#editors">Editor</a></li>
                     </ul>
                 </div>
                 <div>
@@ -1778,6 +1933,7 @@
                         <li><a href="#about">Our Story</a></li>
                         <li><a href="#members">Our Members</a></li>
                         <li><a href="#activities">Our Journey</a></li>
+                        <li><a href="#editors">Editor Team</a></li>
                         <li><a href="#home">Back to Home</a></li>
                     </ul>
                 </div>
@@ -1911,7 +2067,7 @@
         });
 
         // --- STAGGER DELAYS FOR CARDS ---
-        document.querySelectorAll('.member-card, .activity-card').forEach((el, i) => {
+        document.querySelectorAll('.member-card, .activity-card, .editor-card').forEach((el, i) => {
             el.style.transitionDelay = `${(i % 4) * 0.05}s`;
         });
 
