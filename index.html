@@ -1614,14 +1614,6 @@
             filter: brightness(0.9) contrast(1.1);
         }
 
-        /* Container untuk efek lowpass menggunakan CSS */
-        .audio-lowpass {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            z-index: 9998;
-        }
-
         /* ============================================================
                    RESPONSIVE
                    ============================================================ */
@@ -1912,11 +1904,11 @@
 
     <!-- ==================== AUDIO PLAYER ==================== -->
     <div class="audio-control">
-        <button class="audio-btn" id="audioBtn" aria-label="Putar/Jeda musik">▶</button>
+        <button class="audio-btn" id="audioBtn" aria-label="Putar/Jeda musik">⏸</button>
         <span class="audio-label">🎵 <span>Latar</span></span>
     </div>
 
-    <audio id="bgMusic" loop preload="auto">
+    <audio id="bgMusic" loop autoplay preload="auto">
         <source src="TULUS - Tujuh Belas (Official Music Video) [cA7Gzh2ISL0].mp3" type="audio/mpeg">
         Browser Anda tidak mendukung pemutar audio.
     </audio>
@@ -2413,23 +2405,18 @@
             if (e.key === 'Escape') closeModal();
         });
 
-        // --- AUDIO PLAYER ---
+        // --- AUDIO PLAYER (AUTOPLAY & LOOP) ---
         const audio = document.getElementById('bgMusic');
         const audioBtn = document.getElementById('audioBtn');
-        let isPlaying = false;
+        let isPlaying = true;
 
-        // Coba autoplay (dengan catatan browser mungkin memblokir)
-        document.addEventListener('click', function initAudio() {
-            if (!isPlaying) {
-                audio.play().then(() => {
-                    isPlaying = true;
-                    audioBtn.textContent = '⏸';
-                    audioBtn.classList.remove('paused');
-                }).catch(() => {
-                    // Autoplay ditolak, user harus klik manual
-                });
-            }
-            document.removeEventListener('click', initAudio);
+        // Coba play audio (autoplay)
+        audio.play().catch(function(error) {
+            // Autoplay gagal, user harus klik tombol
+            isPlaying = false;
+            audioBtn.textContent = '▶';
+            audioBtn.classList.add('paused');
+            console.log('Autoplay ditolak oleh browser. Klik tombol untuk memutar.');
         });
 
         audioBtn.addEventListener('click', function(e) {
@@ -2448,11 +2435,6 @@
                     // Gagal play
                 });
             }
-        });
-
-        // Jika audio selesai (loop)
-        audio.addEventListener('ended', function() {
-            // Loop sudah diatur, tidak perlu melakukan apa-apa
         });
 
         // --- NAVBAR SCROLL ---
