@@ -669,7 +669,6 @@
             font-weight: 800;
         }
 
-        /* ===== WALI KELAS DENGAN FOTO ===== */
         .homeroom-teacher {
             display: inline-flex;
             align-items: center;
@@ -940,7 +939,7 @@
             align-items: center;
             gap: 15px;
             transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            cursor: default;
+            cursor: pointer;
         }
 
         .member-card:hover {
@@ -998,6 +997,163 @@
         .member-info span {
             font-size: 0.72rem;
             color: var(--gray);
+        }
+
+        /* ============================================================
+                   MODAL / POPUP PROFIL
+                   ============================================================ */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-box {
+            background: white;
+            border-radius: 30px;
+            max-width: 550px;
+            width: 100%;
+            padding: 40px;
+            position: relative;
+            transform: scale(0.9) translateY(30px);
+            transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: #f1f5f9;
+            color: var(--dark);
+            transform: rotate(90deg);
+        }
+
+        .modal-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--primary);
+            margin: 0 auto 15px;
+            display: block;
+            background: #ede9fe;
+        }
+
+        .modal-name {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 2px;
+        }
+
+        .modal-number {
+            text-align: center;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .modal-divider {
+            width: 60px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 50px;
+            margin: 0 auto 20px;
+        }
+
+        .modal-bio {
+            display: grid;
+            gap: 10px;
+        }
+
+        .modal-bio-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 15px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #eef2f7;
+        }
+
+        .modal-bio-item .label {
+            font-weight: 600;
+            color: var(--gray);
+            font-size: 0.8rem;
+            min-width: 80px;
+        }
+
+        .modal-bio-item .value {
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .modal-bio-item .value .highlight-text {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .modal-quote {
+            margin-top: 20px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #ede9fe, #fce7f3);
+            border-radius: 14px;
+            border-left: 4px solid var(--primary);
+            font-style: italic;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .modal-quote::before {
+            content: '"';
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 800;
+        }
+
+        .modal-quote::after {
+            content: '"';
+            font-size: 1.5rem;
+            color: var(--primary);
+            font-weight: 800;
         }
 
         /* ============================================================
@@ -1445,6 +1601,11 @@
             .editors-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            .modal-box {
+                max-width: 450px;
+                padding: 30px;
+            }
         }
 
         @media (max-width: 750px) {
@@ -1543,6 +1704,32 @@
             .hero h1 .sub-title {
                 letter-spacing: 4px;
                 font-size: 1rem;
+            }
+
+            .modal-box {
+                max-width: 380px;
+                padding: 25px;
+                margin: 10px;
+            }
+
+            .modal-avatar {
+                width: 90px;
+                height: 90px;
+            }
+
+            .modal-name {
+                font-size: 1.4rem;
+            }
+
+            .modal-bio-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+            }
+
+            .modal-bio-item .label {
+                min-width: auto;
+                font-size: 0.7rem;
             }
         }
 
@@ -1671,7 +1858,6 @@
                     <div class="about-content reveal">
                         <h3>KAMI ADALAH KELAS X-9 INVICTUS YANG TERSOLID DAN TERBAIK</h3>
 
-                        <!-- WALI KELAS DENGAN FOTO -->
                         <div class="homeroom-teacher">
                             <img class="teacher-avatar" src="foto pw.jpeg" alt="Wali Kelas" onerror="this.outerHTML='<span class=teacher-avatar style=display:flex;background:linear-gradient(135deg,#ede9fe,#fce7f3);font-size:1.2rem;>👨‍🏫</span>'">
                             <span>Wali Kelas: <strong>Bapak Windi</strong></span>
@@ -1786,7 +1972,7 @@
                     <div class="section-heading">
                         <div class="section-label">Class Members</div>
                         <h2>Anggota <span class="gradient-text">X-9 Invictus</span></h2>
-                        <p>Inilah orang-orang yang menjadi bagian dari cerita dan perjalanan kelas X-9 Invictus.</p>
+                        <p>Klik pada salah satu anggota untuk melihat profil lengkap mereka.</p>
                     </div>
                     <div class="member-count">36 Anggota</div>
                 </div>
@@ -1864,7 +2050,6 @@
                 </div>
 
                 <div class="editors-grid">
-                    <!-- Editor 1 - Michael -->
                     <div class="editor-card reveal">
                         <img class="editor-avatar" src="foto m.jpeg" alt="Michael" onerror="this.outerHTML='<div class=editor-avatar style=display:flex;align-items:center;justify-content:center;font-size:3rem;background:linear-gradient(135deg,#ede9fe,#fce7f3);>👤</div>'">
                         <div class="editor-name">Michael</div>
@@ -1876,7 +2061,6 @@
                         <span class="editor-badge">Member #22</span>
                     </div>
 
-                    <!-- Editor 2 - Naufal -->
                     <div class="editor-card reveal">
                         <img class="editor-avatar" src="foto n.jpeg" alt="Naufal" onerror="this.outerHTML='<div class=editor-avatar style=display:flex;align-items:center;justify-content:center;font-size:3rem;background:linear-gradient(135deg,#ede9fe,#fce7f3);>👤</div>'">
                         <div class="editor-name">Naufal</div>
@@ -1948,63 +2132,155 @@
     <!-- BACK TO TOP -->
     <button class="back-top" id="backTop" aria-label="Kembali ke atas">↑</button>
 
+    <!-- ==================== MODAL ==================== -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-box">
+            <button class="modal-close" id="modalClose">✕</button>
+            <img class="modal-avatar" id="modalAvatar" src="" alt="Avatar">
+            <div class="modal-name" id="modalName">Nama</div>
+            <div class="modal-number" id="modalNumber">Member #00</div>
+            <div class="modal-divider"></div>
+            <div class="modal-bio" id="modalBio">
+                <!-- injected by JS -->
+            </div>
+            <div class="modal-quote" id="modalQuote">
+                Kutipan favorit anggota ini.
+            </div>
+        </div>
+    </div>
+
     <!-- ==================== JAVASCRIPT ==================== -->
     <script>
-        // --- MEMBERS DATA dengan foto untuk Michael & Naufal ---
-        const members = [
-            ["Vino", 1, ""],
-            ["Amora", 2, ""],
-            ["Cencen", 3, ""],
-            ["Cathy", 4, ""],
-            ["Callie", 5, ""],
-            ["Cherry", 6, ""],
-            ["Kaia", 7, ""],
-            ["Louise", 8, ""],
-            ["Flo", 9, ""],
-            ["Ratya", 10, ""],
-            ["Geon", 11, ""],
-            ["Joice", 12, ""],
-            ["Josh", 13, ""],
-            ["Ale", 14, ""],
-            ["Kate", 15, ""],
-            ["Keiko", 16, ""],
-            ["Ken", 17, ""],
-            ["Pelangi", 18, ""],
-            ["Marvel", 19, ""],
-            ["Matthew", 20, ""],
-            ["Melona", 21, ""],
-            ["Michael", 22, ""],
-            ["Tata", 23, ""],
-            ["Naufal", 24, ""],
-            ["Nema", 25, ""],
-            ["Nolan", 26, ""],
-            ["Quin", 27, ""],
-            ["Raphael", 28, ""],
-            ["Revan", 29, ""],
-            ["Rifka", 30, ""],
-            ["Kenny", 31, ""],
-            ["Steffi", 32, ""],
-            ["Tegar", 33, ""],
-            ["Xylon", 34, ""],
-            ["Erine", 35, ""],
-            ["Laura", 36, ""]
+        // --- DATA ANGGOTA DENGAN BIODATA LENGKAP ---
+        const membersData = [
+            { name: "Vino", number: 1, photo: "", nickname: "Vino", birth: "14 Januari 2008", hobby: "Bermain Game", motto: "Hidup itu seperti roda, terkadang di atas terkadang di bawah." },
+            { name: "Amora", number: 2, photo: "", nickname: "Amora", birth: "22 Maret 2008", hobby: "Membaca Buku", motto: "Buku adalah jendela dunia." },
+            { name: "Cencen", number: 3, photo: "", nickname: "Cencen", birth: "5 April 2008", hobby: "Bermain Basket", motto: "Kerja keras mengalahkan bakat ketika bakat tidak bekerja keras." },
+            { name: "Cathy", number: 4, photo: "", nickname: "Cathy", birth: "17 Mei 2008", hobby: "Menari", motto: "Tarian adalah puisi yang bergerak." },
+            { name: "Callie", number: 5, photo: "", nickname: "Callie", birth: "9 Juni 2008", hobby: "Fotografi", motto: "Setiap foto menyimpan seribu cerita." },
+            { name: "Cherry", number: 6, photo: "", nickname: "Cherry", birth: "28 Juli 2008", hobby: "Menyanyi", motto: "Musik adalah bahasa universal." },
+            { name: "Kaia", number: 7, photo: "", nickname: "Kaia", birth: "3 Agustus 2008", hobby: "Melukis", motto: "Warna adalah emosi yang terlihat." },
+            { name: "Louise", number: 8, photo: "", nickname: "Louise", birth: "19 September 2008", hobby: "Menulis", motto: "Kata-kata memiliki kekuatan." },
+            { name: "Flo", number: 9, photo: "", nickname: "Flo", birth: "25 Oktober 2008", hobby: "Olahraga", motto: "Tubuh yang sehat, pikiran yang sehat." },
+            { name: "Ratya", number: 10, photo: "", nickname: "Ratya", birth: "12 November 2008", hobby: "Mendaki", motto: "Puncak bukan tujuan, perjalanan adalah pelajaran." },
+            { name: "Geon", number: 11, photo: "", nickname: "Geon", birth: "7 Desember 2008", hobby: "Bersepeda", motto: "Terus melaju meski jalan terjal." },
+            { name: "Joice", number: 12, photo: "", nickname: "Joice", birth: "30 Januari 2009", hobby: "Memasak", motto: "Makanan terbaik dibuat dengan cinta." },
+            { name: "Josh", number: 13, photo: "", nickname: "Josh", birth: "14 Februari 2009", hobby: "Futsal", motto: "Bermain dengan hati, menang dengan tim." },
+            { name: "Ale", number: 14, photo: "", nickname: "Ale", birth: "22 Maret 2009", hobby: "Bermain Gitar", motto: "Senar yang dipetik menghasilkan harmoni." },
+            { name: "Kate", number: 15, photo: "", nickname: "Kate", birth: "5 April 2009", hobby: "Berlari", motto: "Jangan berhenti sampai kau mencapai garis finish." },
+            { name: "Keiko", number: 16, photo: "", nickname: "Keiko", birth: "17 Mei 2009", hobby: "Menggambar", motto: "Imajinasi adalah awal dari kreasi." },
+            { name: "Ken", number: 17, photo: "", nickname: "Ken", birth: "9 Juni 2009", hobby: "Belajar Sejarah", motto: "Masa lalu adalah guru terbaik." },
+            { name: "Pelangi", number: 18, photo: "", nickname: "Pelangi", birth: "28 Juli 2009", hobby: "Bermain Piano", motto: "Melodi menyentuh jiwa." },
+            { name: "Marvel", number: 19, photo: "", nickname: "Marvel", birth: "3 Agustus 2009", hobby: "Watching Movie", motto: "Setiap film adalah petualangan baru." },
+            { name: "Matthew", number: 20, photo: "", nickname: "Matthew", birth: "19 September 2009", hobby: "Coding", motto: "Kode adalah sihir di dunia modern." },
+            { name: "Melona", number: 21, photo: "", nickname: "Melona", birth: "25 Oktober 2009", hobby: "Membaca Komik", motto: "Hidup ini seperti komik, penuh warna." },
+            { name: "Michael", number: 22, photo: "foto m.jpeg", nickname: "Michael", birth: "12 November 2009", hobby: "Web Development", motto: "Bangun sesuatu yang bermanfaat bagi banyak orang." },
+            { name: "Tata", number: 23, photo: "", nickname: "Tata", birth: "7 Desember 2009", hobby: "Bermain Voli", motto: "Terus melompat untuk meraih yang tertinggi." },
+            { name: "Naufal", number: 24, photo: "foto n.jpeg", nickname: "Naufal", birth: "30 Januari 2010", hobby: "UI/UX Design", motto: "Desain yang baik adalah desain yang tak terlihat." },
+            { name: "Nema", number: 25, photo: "", nickname: "Nema", birth: "14 Februari 2010", hobby: "Menjahit", motto: "Jahitan yang rapi mencerminkan ketelitian." },
+            { name: "Nolan", number: 26, photo: "", nickname: "Nolan", birth: "22 Maret 2010", hobby: "Bermain Catur", motto: "Strategi adalah kunci kemenangan." },
+            { name: "Quin", number: 27, photo: "", nickname: "Quin", birth: "5 April 2010", hobby: "Bermain Game", motto: "Game mengajarkan kerja sama tim." },
+            { name: "Raphael", number: 28, photo: "", nickname: "Raphael", birth: "17 Mei 2010", hobby: "Membaca Novel", motto: "Cerita membawa kita ke dunia lain." },
+            { name: "Revan", number: 29, photo: "", nickname: "Revan", birth: "9 Juni 2010", hobby: "Olahraga", motto: "Juara lahir dari latihan." },
+            { name: "Rifka", number: 30, photo: "", nickname: "Rifka", birth: "28 Juli 2010", hobby: "Menulis Puisi", motto: "Puisi adalah curahan jiwa." },
+            { name: "Kenny", number: 31, photo: "", nickname: "Kenny", birth: "3 Agustus 2010", hobby: "Bermain Drum", motto: "Irama adalah denyut kehidupan." },
+            { name: "Steffi", number: 32, photo: "", nickname: "Steffi", birth: "19 September 2010", hobby: "Berenang", motto: "Air adalah tempatku bebas." },
+            { name: "Tegar", number: 33, photo: "", nickname: "Tegar", birth: "25 Oktober 2010", hobby: "Berkebun", motto: "Tumbuh bersama dengan alam." },
+            { name: "Xylon", number: 34, photo: "", nickname: "Xylon", birth: "12 November 2010", hobby: "Robotik", motto: "Masa depan adalah teknologi." },
+            { name: "Erine", number: 35, photo: "", nickname: "Erine", birth: "7 Desember 2010", hobby: "Memasak", motto: "Masakan terbaik berasal dari hati." },
+            { name: "Laura", number: 36, photo: "", nickname: "Laura", birth: "30 Januari 2011", hobby: "Melukis", motto: "Kanvas adalah dunia tanpa batas." }
         ];
 
+        // --- RENDER MEMBERS ---
         const grid = document.getElementById('membersGrid');
-        grid.innerHTML = members.map(m => {
-            const hasFoto = m[2] && m[2].length > 0;
+        grid.innerHTML = membersData.map(m => {
+            const hasFoto = m.photo && m.photo.length > 0;
             const avatarHtml = hasFoto ?
-                `<img class="member-avatar" src="${m[2]}" alt="${m[0]}" onerror="this.outerHTML='<div class=member-avatar style=display:flex;background:#f1f5f9;color:#64748b;font-weight:700;>${m[0][0]}</div>'">` :
-                `<div class="member-avatar" style="display:flex;background:#f1f5f9;color:#64748b;font-weight:700;">${m[0][0]}</div>`;
-            return `<div class="member-card reveal">
+                `<img class="member-avatar" src="${m.photo}" alt="${m.name}" onerror="this.outerHTML='<div class=member-avatar style=display:flex;background:#f1f5f9;color:#64748b;font-weight:700;>${m.name[0]}</div>'">` :
+                `<div class="member-avatar" style="display:flex;background:#f1f5f9;color:#64748b;font-weight:700;">${m.name[0]}</div>`;
+            return `<div class="member-card reveal" data-index="${m.number - 1}">
                             ${avatarHtml}
-                            <div class="member-number">${String(m[1]).padStart(2, '0')}</div>
+                            <div class="member-number">${String(m.number).padStart(2, '0')}</div>
                             <div class="member-info">
-                                <h3>${m[0]}</h3>
-                                <span>Member #${m[1]}</span>
+                                <h3>${m.name}</h3>
+                                <span>Member #${m.number}</span>
                             </div>
                         </div>`;
         }).join('');
+
+        // --- MODAL / POPUP PROFIL ---
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalClose = document.getElementById('modalClose');
+        const modalAvatar = document.getElementById('modalAvatar');
+        const modalName = document.getElementById('modalName');
+        const modalNumber = document.getElementById('modalNumber');
+        const modalBio = document.getElementById('modalBio');
+        const modalQuote = document.getElementById('modalQuote');
+
+        function openModal(index) {
+            const m = membersData[index];
+            if (!m) return;
+
+            // Set avatar
+            if (m.photo && m.photo.length > 0) {
+                modalAvatar.src = m.photo;
+                modalAvatar.style.display = 'block';
+                modalAvatar.onerror = function() {
+                    this.style.display = 'none';
+                };
+            } else {
+                modalAvatar.style.display = 'none';
+            }
+
+            modalName.textContent = m.name;
+            modalNumber.textContent = `Member #${String(m.number).padStart(2, '0')}`;
+
+            // Biodata
+            modalBio.innerHTML = `
+                        <div class="modal-bio-item">
+                            <span class="label">📛 Nama Panggilan</span>
+                            <span class="value">${m.nickname}</span>
+                        </div>
+                        <div class="modal-bio-item">
+                            <span class="label">🎂 Tanggal Lahir</span>
+                            <span class="value">${m.birth}</span>
+                        </div>
+                        <div class="modal-bio-item">
+                            <span class="label">🎯 Hobi</span>
+                            <span class="value">${m.hobby}</span>
+                        </div>
+                        <div class="modal-bio-item">
+                            <span class="label">💬 Motto</span>
+                            <span class="value"><span class="highlight-text">"${m.motto}"</span></span>
+                        </div>
+                    `;
+
+            modalQuote.textContent = m.motto;
+
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // --- Event Listeners untuk Modal ---
+        document.querySelectorAll('.member-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const index = parseInt(this.dataset.index);
+                openModal(index);
+            });
+        });
+
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
 
         // --- NAVBAR SCROLL ---
         const navbar = document.getElementById('navbar');
