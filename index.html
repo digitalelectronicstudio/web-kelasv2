@@ -1548,6 +1548,81 @@
         }
 
         /* ============================================================
+                   AUDIO PLAYER - LOWPASS EFFECT
+                   ============================================================ */
+        .audio-control {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 9998;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            padding: 10px 16px 10px 14px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            transition: 0.3s ease;
+        }
+
+        .audio-control:hover {
+            background: rgba(15, 23, 42, 0.95);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        .audio-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: var(--gradient);
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .audio-btn:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        .audio-btn.paused {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .audio-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .audio-label span {
+            color: white;
+            font-weight: 700;
+        }
+
+        /* Lowpass filter pada audio element */
+        #bgMusic {
+            filter: brightness(0.9) contrast(1.1);
+        }
+
+        /* Container untuk efek lowpass menggunakan CSS */
+        .audio-lowpass {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            z-index: 9998;
+        }
+
+        /* ============================================================
                    RESPONSIVE
                    ============================================================ */
         @media (max-width: 1000px) {
@@ -1605,6 +1680,18 @@
             .modal-box {
                 max-width: 450px;
                 padding: 30px;
+            }
+
+            .audio-control {
+                bottom: 20px;
+                left: 20px;
+                padding: 8px 14px 8px 12px;
+            }
+
+            .audio-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 0.85rem;
             }
         }
 
@@ -1731,6 +1818,22 @@
                 min-width: auto;
                 font-size: 0.7rem;
             }
+
+            .audio-control {
+                bottom: 15px;
+                left: 15px;
+                padding: 6px 12px 6px 10px;
+            }
+
+            .audio-btn {
+                width: 28px;
+                height: 28px;
+                font-size: 0.75rem;
+            }
+
+            .audio-label {
+                font-size: 0.6rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1766,6 +1869,23 @@
             .homeroom-teacher {
                 font-size: 0.82rem;
             }
+
+            .audio-control {
+                bottom: 15px;
+                left: 15px;
+                padding: 5px 10px 5px 8px;
+                gap: 8px;
+            }
+
+            .audio-btn {
+                width: 24px;
+                height: 24px;
+                font-size: 0.65rem;
+            }
+
+            .audio-label {
+                font-size: 0.55rem;
+            }
         }
     </style>
 </head>
@@ -1789,6 +1909,17 @@
             </ul>
         </div>
     </header>
+
+    <!-- ==================== AUDIO PLAYER ==================== -->
+    <div class="audio-control">
+        <button class="audio-btn" id="audioBtn" aria-label="Putar/Jeda musik">▶</button>
+        <span class="audio-label">🎵 <span>Latar</span></span>
+    </div>
+
+    <audio id="bgMusic" loop preload="auto">
+        <source src="TULUS - Tujuh Belas (Official Music Video) [cA7Gzh2ISL0].mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung pemutar audio.
+    </audio>
 
     <!-- ==================== HERO ==================== -->
     <main>
@@ -2280,6 +2411,48 @@
         });
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeModal();
+        });
+
+        // --- AUDIO PLAYER ---
+        const audio = document.getElementById('bgMusic');
+        const audioBtn = document.getElementById('audioBtn');
+        let isPlaying = false;
+
+        // Coba autoplay (dengan catatan browser mungkin memblokir)
+        document.addEventListener('click', function initAudio() {
+            if (!isPlaying) {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    audioBtn.textContent = '⏸';
+                    audioBtn.classList.remove('paused');
+                }).catch(() => {
+                    // Autoplay ditolak, user harus klik manual
+                });
+            }
+            document.removeEventListener('click', initAudio);
+        });
+
+        audioBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (isPlaying) {
+                audio.pause();
+                isPlaying = false;
+                audioBtn.textContent = '▶';
+                audioBtn.classList.add('paused');
+            } else {
+                audio.play().then(() => {
+                    isPlaying = true;
+                    audioBtn.textContent = '⏸';
+                    audioBtn.classList.remove('paused');
+                }).catch(() => {
+                    // Gagal play
+                });
+            }
+        });
+
+        // Jika audio selesai (loop)
+        audio.addEventListener('ended', function() {
+            // Loop sudah diatur, tidak perlu melakukan apa-apa
         });
 
         // --- NAVBAR SCROLL ---
