@@ -6,6 +6,11 @@
     <meta name="description" content="Website resmi kelas X-9 - Kelas yang solid, kompak, kreatif, dan terbaik." />
     <meta name="theme-color" content="#0f172a" />
 
+    <!-- FAVICON -->
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon.png" />
+    <link rel="apple-touch-icon" href="favicon.jpeg" />
+
     <title>X-9 Invictus | Kelas Tersolid & Terbaik</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -1498,6 +1503,77 @@
         }
 
         /* ============================================================
+                   MODAL IMAGE POPUP (untuk memory gallery)
+                   ============================================================ */
+        .modal-image-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 999999;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 30px;
+            cursor: pointer;
+        }
+
+        .modal-image-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-image-box {
+            max-width: 90vw;
+            max-height: 85vh;
+            position: relative;
+            transform: scale(0.9);
+            transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: default;
+        }
+
+        .modal-image-overlay.active .modal-image-box {
+            transform: scale(1);
+        }
+
+        .modal-image-box img {
+            max-width: 100%;
+            max-height: 85vh;
+            border-radius: 16px;
+            object-fit: contain;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .modal-image-close {
+            position: absolute;
+            top: -50px;
+            right: -10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s ease;
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-image-close:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+
+        /* ============================================================
                    CTA
                    ============================================================ */
         .cta {
@@ -1805,6 +1881,18 @@
             .memory-item img {
                 height: 180px;
             }
+
+            .modal-image-box {
+                max-width: 95vw;
+            }
+
+            .modal-image-close {
+                top: -45px;
+                right: 0;
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
         }
 
         @media (max-width: 750px) {
@@ -1959,6 +2047,18 @@
                 font-size: 0.75rem;
                 padding: 10px 14px;
             }
+
+            .modal-image-box {
+                max-width: 98vw;
+            }
+
+            .modal-image-close {
+                top: -40px;
+                right: 0;
+                width: 35px;
+                height: 35px;
+                font-size: 1.2rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -2030,6 +2130,14 @@
                 padding: 2px 8px;
                 top: 8px;
                 right: 8px;
+            }
+
+            .modal-image-close {
+                top: -35px;
+                right: 0;
+                width: 30px;
+                height: 30px;
+                font-size: 1rem;
             }
         }
     </style>
@@ -2274,7 +2382,7 @@
                 <div class="section-heading reveal">
                     <div class="section-label">Memory Gallery</div>
                     <h2>Kenangan <span class="gradient-text">X-9</span></h2>
-                    <p>Setiap momen adalah kenangan yang tak terlupakan. Scroll untuk melihat lebih banyak.</p>
+                    <p>Klik pada gambar untuk melihat lebih jelas.</p>
                 </div>
 
                 <div class="memory-scroll reveal" id="memoryScroll">
@@ -2426,7 +2534,7 @@
     <!-- BACK TO TOP -->
     <button class="back-top" id="backTop" aria-label="Kembali ke atas">↑</button>
 
-    <!-- ==================== MODAL ==================== -->
+    <!-- ==================== MODAL PROFIL ==================== -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-box">
             <button class="modal-close" id="modalClose">✕</button>
@@ -2440,6 +2548,14 @@
             <div class="modal-quote" id="modalQuote">
                 Kutipan favorit anggota ini.
             </div>
+        </div>
+    </div>
+
+    <!-- ==================== MODAL IMAGE POPUP ==================== -->
+    <div class="modal-image-overlay" id="modalImageOverlay">
+        <div class="modal-image-box">
+            <img id="modalImage" src="" alt="Memory Image">
+            <button class="modal-image-close" id="modalImageClose">✕</button>
         </div>
     </div>
 
@@ -2477,7 +2593,7 @@
             { name: "Raphael", number: 28, photo: "", nickname: "Raphael", birth: "17 Mei 2010", hobby: "Membaca Novel", motto: "Cerita membawa kita ke dunia lain." },
             { name: "Revan", number: 29, photo: "", nickname: "Revan", birth: "9 Juni 2010", hobby: "Olahraga", motto: "Juara lahir dari latihan." },
             { name: "Rifka", number: 30, photo: "foto salsa.jpg", nickname: "Rifka", birth: "16 Maret 2011", hobby: "Dance, nyanyi", motto: "Puisi adalah curahan jiwa." },
-            { name: "Kenny", number: 31, photo: "foto kenny.jpg", nickname: "Kenny", birth: "3 Agustus 2010", hobby: "Bermain Drum", motto: "Irama adalah denyut kehidupan." },
+            { name: "Kenny", number: 31, photo: "foto kenny.jpg", nickname: "Kenny", birth: "3 Agustus 2010", hobby: "Masak,Ndengerin musik", motto: "Irama adalah denyut kehidupan." },
             { name: "Steffi", number: 32, photo: "foto steffi.jpeg", nickname: "Steffi", birth: "23 September 2011", hobby: "Menyanyi", motto: "Air adalah tempatku bebas." },
             { name: "Tegar", number: 33, photo: "foto tegar.jpg", nickname: "Tegar", birth: "14 Agustus 2010", hobby: "memasak, journaling, traveling, bubuk ciang", motto: "Tumbuh bersama dengan alam." },
             { name: "Xylon", number: 34, photo: "", nickname: "Xylon", birth: "12 November 2010", hobby: "Robotik", motto: "Masa depan adalah teknologi." },
@@ -2485,9 +2601,7 @@
             { name: "Laura", number: 36, photo: "", nickname: "Laura", birth: "30 Januari 2011", hobby: "Melukis", motto: "Kanvas adalah dunia tanpa batas." }
         ];
 
-        // --- DATA MEMORY PICTURE (folder memories dengan nama random) ---
-        // Cukup tulis nama file di folder memories, kode akan otomatis menampilkan
-        // Sesuaikan daftar file dengan yang ada di folder memories Anda
+        // --- DATA MEMORY PICTURE ---
         const memoryFiles = [
             { label: "Momen Kebersamaan", file: "foto1.jpeg" },
             { label: "Random", file: "foto2.jpeg" },
@@ -2512,15 +2626,46 @@
                         </div>`;
         }).join('');
 
-        // --- RENDER MEMORY GALLERY (dari folder memories) ---
+        // --- RENDER MEMORY GALLERY ---
         const memoryScroll = document.getElementById('memoryScroll');
         memoryScroll.innerHTML = memoryFiles.map((m, index) => {
-            return `<div class="memory-item reveal">
+            return `<div class="memory-item reveal" data-image="${m.file}">
                             <img src="${m.file}" alt="${m.label}" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#1e293b,#0f172a)'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.color='#64748b'; this.style.fontSize='0.8rem'; this.innerHTML='📷 ${m.label}';">
                             <span class="memory-badge">✦ Memori</span>
                             <div class="memory-label">📸 <span>${m.label}</span></div>
                         </div>`;
         }).join('');
+
+        // --- MODAL IMAGE POPUP ---
+        const modalImageOverlay = document.getElementById('modalImageOverlay');
+        const modalImage = document.getElementById('modalImage');
+        const modalImageClose = document.getElementById('modalImageClose');
+
+        // Klik pada memory item untuk membuka popup
+        document.querySelectorAll('.memory-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const imageSrc = this.dataset.image;
+                if (imageSrc) {
+                    modalImage.src = imageSrc;
+                    modalImageOverlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Tutup popup
+        function closeImageModal() {
+            modalImageOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modalImageClose.addEventListener('click', closeImageModal);
+        modalImageOverlay.addEventListener('click', function(e) {
+            if (e.target === this) closeImageModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeImageModal();
+        });
 
         // --- MODAL / POPUP PROFIL ---
         const modalOverlay = document.getElementById('modalOverlay');
