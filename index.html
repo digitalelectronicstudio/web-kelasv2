@@ -112,6 +112,9 @@
             justify-content: space-between;
         }
 
+        /* ============================================================
+                   HEADER 3D - Subtle Premium Effect
+                   ============================================================ */
         .logo {
             display: flex;
             align-items: center;
@@ -120,9 +123,38 @@
             font-weight: 800;
             font-size: 1.25rem;
             transition: 0.3s ease;
+            perspective: 600px;
         }
         .logo:hover {
             transform: scale(1.02);
+        }
+
+        .logo .logo-3d {
+            display: inline-block;
+            transform-style: preserve-3d;
+            transition: transform 0.3s ease;
+            position: relative;
+        }
+
+        .logo .logo-3d .logo-text {
+            display: inline-block;
+            position: relative;
+            color: white;
+            text-shadow: 
+                0 1px 0 rgba(99, 102, 241, 0.3),
+                0 2px 0 rgba(99, 102, 241, 0.2),
+                0 3px 0 rgba(99, 102, 241, 0.15),
+                0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .logo .logo-3d .logo-text .gradient-text-nav {
+            background: linear-gradient(90deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo:hover .logo-3d {
+            transform: rotateX(2deg) rotateY(4deg) translateZ(5px);
         }
 
         .logo-icon {
@@ -188,6 +220,126 @@
         }
         .menu-toggle:hover {
             transform: rotate(90deg);
+        }
+
+        /* ============================================================
+                   RUNNING TEXT UTAMA - DIAGONAL POLICE TAPE (CLEAN)
+                   ============================================================ */
+        .running-tape-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 4;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .running-tape {
+            position: absolute;
+            top: 18%;
+            left: -10%;
+            width: 120%;
+            padding: 18px 0;
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(99, 102, 241, 0.20) 0px,
+                rgba(99, 102, 241, 0.20) 35px,
+                transparent 35px,
+                transparent 50px
+            );
+            transform: rotate(-6deg) scale(1);
+            border-top: 2px solid rgba(99, 102, 241, 0.15);
+            border-bottom: 2px solid rgba(99, 102, 241, 0.15);
+            box-shadow: 0 0 30px rgba(99, 102, 241, 0.05);
+            will-change: transform, opacity;
+            transition: none;
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+        }
+
+        .running-tape .tape-text {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+            white-space: nowrap;
+            font-family: "Poppins", sans-serif;
+            font-weight: 700;
+            font-size: clamp(1.2rem, 2.5vw, 2.2rem);
+            color: rgba(255, 255, 255, 0.85);
+            text-shadow: 0 0 20px rgba(99, 102, 241, 0.15);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            padding: 0 20px;
+            animation: scrollTape 18s linear infinite;
+        }
+
+        .running-tape .tape-text span {
+            display: inline-block;
+            padding: 0 15px;
+            border-left: 2px solid rgba(255, 255, 255, 0.15);
+            border-right: 2px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .running-tape .tape-text .highlight-tape {
+            color: #a5b4fc;
+            font-weight: 800;
+            text-shadow: 0 0 30px rgba(99, 102, 241, 0.2);
+        }
+
+        @keyframes scrollTape {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ============================================================
+                   RUNNING TEXT BACKGROUND - Subtle Motion
+                   ============================================================ */
+        .running-bg-wrapper {
+            position: absolute;
+            bottom: 8%;
+            left: 0;
+            width: 100%;
+            z-index: 1;
+            overflow: hidden;
+            pointer-events: none;
+            opacity: 0.15;
+        }
+
+        .running-bg {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            white-space: nowrap;
+            font-family: "Poppins", sans-serif;
+            font-weight: 500;
+            font-size: clamp(0.6rem, 1vw, 0.85rem);
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            padding: 4px 0;
+            animation: scrollBg 25s linear infinite;
+            background: repeating-linear-gradient(
+                90deg,
+                rgba(99, 102, 241, 0.08) 0px,
+                rgba(99, 102, 241, 0.08) 25px,
+                transparent 25px,
+                transparent 40px
+            );
+        }
+
+        @keyframes scrollBg {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
         }
 
         /* ============================================================
@@ -281,11 +433,112 @@
             }
         }
 
+        /* ============================================================
+                   HEADER 3D - Hero Title
+                   ============================================================ */
         .hero h1 {
             font-size: clamp(3.5rem, 8vw, 7rem);
             letter-spacing: -5px;
             margin-bottom: 20px;
             animation: fade-up 1s ease forwards;
+            perspective: 800px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .hero h1 .title-3d {
+            display: inline-block;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease;
+            animation: titleFloat 6s ease-in-out infinite;
+            color: white;
+            position: relative;
+        }
+
+        /* Subtle 3D dengan multiple text-shadow */
+        .hero h1 .title-3d .gradient-text {
+            display: inline-block;
+            position: relative;
+            font-weight: 800;
+            background: linear-gradient(90deg, #818cf8, #a78bfa, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 300% 100%;
+            animation: shimmer 6s ease-in-out infinite alternate;
+            text-shadow: 
+                0 2px 4px rgba(99, 102, 241, 0.2),
+                0 4px 8px rgba(99, 102, 241, 0.15),
+                0 8px 16px rgba(99, 102, 241, 0.1);
+        }
+
+        /* 3D depth layers */
+        .hero h1 .title-3d .gradient-text::before {
+            content: attr(data-text);
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            z-index: -1;
+            background: linear-gradient(90deg, #4f46e5, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: blur(4px);
+            opacity: 0.3;
+            transform: translateZ(-8px);
+        }
+
+        .hero h1 .title-3d .gradient-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            z-index: -2;
+            background: linear-gradient(90deg, #312e81, #4c1d95);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: blur(8px);
+            opacity: 0.15;
+            transform: translateZ(-16px);
+        }
+
+        @keyframes titleFloat {
+            0%, 100% {
+                transform: rotateX(0deg) rotateY(0deg) translateZ(0);
+            }
+            50% {
+                transform: rotateX(2deg) rotateY(3deg) translateZ(4px);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 100% 50%;
+            }
+        }
+
+        /* Scroll effect untuk title - subtle rotate & fade */
+        .hero h1 .title-3d.scroll-effect {
+            animation: titleScrollSubtle 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes titleScrollSubtle {
+            0% {
+                opacity: 1;
+                transform: rotateX(0deg) rotateY(0deg) scale(1) translateZ(0);
+                filter: blur(0px);
+            }
+            40% {
+                opacity: 0.9;
+                transform: rotateX(4deg) rotateY(10deg) scale(1.02) translateZ(8px);
+                filter: blur(0px);
+            }
+            100% {
+                opacity: 0;
+                transform: rotateX(10deg) rotateY(20deg) scale(0.8) translateZ(-20px);
+                filter: blur(2px);
+            }
         }
 
         .hero h1 .sub-title {
@@ -298,23 +551,6 @@
             text-shadow: 0 0 40px rgba(99, 102, 241, 0.3);
         }
 
-        .gradient-text {
-            background: linear-gradient(90deg, #818cf8, #c084fc, #f472b6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% 100%;
-            animation: shimmer 6s ease-in-out infinite alternate;
-        }
-
-        @keyframes shimmer {
-            0% {
-                background-position: 0% 50%;
-            }
-            100% {
-                background-position: 100% 50%;
-            }
-        }
-
         .hero-description {
             max-width: 650px;
             color: #cbd5e1;
@@ -322,6 +558,8 @@
             margin-bottom: 35px;
             animation: fade-up 1s ease 0.1s forwards;
             opacity: 0;
+            position: relative;
+            z-index: 10;
         }
 
         .hero-buttons {
@@ -330,6 +568,8 @@
             gap: 15px;
             animation: fade-up 1s ease 0.2s forwards;
             opacity: 0;
+            position: relative;
+            z-index: 10;
         }
 
         .btn {
@@ -372,6 +612,7 @@
         .hero-card-wrapper {
             position: relative;
             animation: float 6s ease-in-out infinite;
+            z-index: 10;
         }
 
         @keyframes float {
@@ -535,8 +776,10 @@
         }
 
         /* ============================================================
-                   ABOUT
+                   ABOUT, VALUES, STATS, MEMBERS, ACTIVITIES, EDITOR, MEMORY, CTA, FOOTER
                    ============================================================ */
+        /* Sisa bagian tetap sama seperti sebelumnya, tidak diubah */
+
         .about {
             background: white;
             overflow: hidden;
@@ -760,9 +1003,7 @@
             margin: 0;
         }
 
-        /* ============================================================
-                   VALUES
-                   ============================================================ */
+        /* VALUES */
         .values {
             background: #f1f5f9;
         }
@@ -843,9 +1084,7 @@
             color: var(--gray);
         }
 
-        /* ============================================================
-                   STATS
-                   ============================================================ */
+        /* STATS */
         .stats {
             background: var(--dark);
             color: white;
@@ -893,9 +1132,7 @@
             font-size: 0.9rem;
         }
 
-        /* ============================================================
-                   MEMBERS
-                   ============================================================ */
+        /* MEMBERS */
         .members {
             background: white;
         }
@@ -1004,9 +1241,7 @@
             color: var(--gray);
         }
 
-        /* ============================================================
-                   MODAL / POPUP PROFIL
-                   ============================================================ */
+        /* MODAL */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -1161,9 +1396,7 @@
             font-weight: 800;
         }
 
-        /* ============================================================
-                   QUOTE
-                   ============================================================ */
+        /* QUOTE */
         .quote-section {
             padding: 120px 5%;
             background: linear-gradient(135deg, #4f46e5, #7c3aed, #db2777);
@@ -1209,9 +1442,7 @@
             opacity: 0.85;
         }
 
-        /* ============================================================
-                   ACTIVITIES
-                   ============================================================ */
+        /* ACTIVITIES */
         .activities {
             background: #f8fafc;
         }
@@ -1283,9 +1514,7 @@
             font-size: 0.88rem;
         }
 
-        /* ============================================================
-                   EDITOR SECTION
-                   ============================================================ */
+        /* EDITOR */
         .editors {
             background: white;
             padding: 80px 5%;
@@ -1389,9 +1618,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* ============================================================
-                   MEMORY PICTURE - SCROLLING GALLERY
-                   ============================================================ */
+        /* MEMORY */
         .memory {
             background: #0f172a;
             padding: 80px 5%;
@@ -1502,9 +1729,7 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* ============================================================
-                   MODAL IMAGE POPUP (untuk memory gallery)
-                   ============================================================ */
+        /* MODAL IMAGE */
         .modal-image-overlay {
             position: fixed;
             inset: 0;
@@ -1573,9 +1798,7 @@
             transform: rotate(90deg);
         }
 
-        /* ============================================================
-                   CTA
-                   ============================================================ */
+        /* CTA */
         .cta {
             background: white;
             padding-top: 0;
@@ -1624,9 +1847,7 @@
             margin: 0 auto 30px;
         }
 
-        /* ============================================================
-                   FOOTER
-                   ============================================================ */
+        /* FOOTER */
         footer {
             background: #070b16;
             color: white;
@@ -1687,9 +1908,7 @@
             font-weight: 600;
         }
 
-        /* ============================================================
-                   BACK TOP
-                   ============================================================ */
+        /* BACK TOP */
         .back-top {
             position: fixed;
             right: 25px;
@@ -1721,9 +1940,7 @@
             box-shadow: 0 15px 40px rgba(99, 102, 241, 0.45);
         }
 
-        /* ============================================================
-                   REVEAL ANIMATION
-                   ============================================================ */
+        /* REVEAL */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -1736,9 +1953,7 @@
             transform: translateY(0);
         }
 
-        /* ============================================================
-                   AUDIO PLAYER - LOWPASS EFFECT
-                   ============================================================ */
+        /* AUDIO PLAYER */
         .audio-control {
             position: fixed;
             bottom: 30px;
@@ -1892,6 +2107,17 @@
                 width: 40px;
                 height: 40px;
                 font-size: 1.5rem;
+            }
+
+            .running-tape {
+                top: 12%;
+                padding: 14px 0;
+            }
+
+            .running-tape .tape-text {
+                font-size: clamp(1rem, 2vw, 1.6rem);
+                gap: 40px;
+                letter-spacing: 4px;
             }
         }
 
@@ -2059,6 +2285,29 @@
                 height: 35px;
                 font-size: 1.2rem;
             }
+
+            .running-tape {
+                top: 8%;
+                padding: 10px 0;
+                transform: rotate(-5deg);
+            }
+
+            .running-tape .tape-text {
+                font-size: clamp(0.8rem, 1.5vw, 1.2rem);
+                gap: 30px;
+                letter-spacing: 3px;
+            }
+
+            .running-bg-wrapper {
+                bottom: 3%;
+                opacity: 0.1;
+            }
+
+            .running-bg {
+                font-size: clamp(0.5rem, 0.8vw, 0.6rem);
+                gap: 25px;
+                letter-spacing: 2px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -2139,6 +2388,22 @@
                 height: 30px;
                 font-size: 1rem;
             }
+
+            .running-tape {
+                top: 5%;
+                padding: 8px 0;
+                transform: rotate(-4deg);
+            }
+
+            .running-tape .tape-text {
+                font-size: 0.7rem;
+                gap: 20px;
+                letter-spacing: 2px;
+            }
+
+            .running-tape .tape-text span {
+                padding: 0 8px;
+            }
         }
     </style>
 </head>
@@ -2149,7 +2414,11 @@
         <div class="nav-container">
             <a href="#home" class="logo">
                 <div class="logo-icon"><span>X9</span></div>
-                <span>X-9 INVICTUS</span>
+                <span class="logo-3d">
+                    <span class="logo-text">
+                        X-<span class="gradient-text-nav">9</span> INVICTUS
+                    </span>
+                </span>
             </a>
             <button class="menu-toggle" id="menuToggle" aria-label="Buka menu">☰</button>
             <ul class="nav-menu" id="navMenu">
@@ -2180,6 +2449,45 @@
         <section class="hero" id="home">
             <div class="hero-bg-image"></div>
 
+            <!-- RUNNING TEXT UTAMA - DIAGONAL POLICE TAPE (CLEAN) -->
+            <div class="running-tape-wrapper">
+                <div class="running-tape" id="runningTape">
+                    <div class="tape-text">
+                        <span>✦ <span class="highlight-tape">X-9 INVICTUS</span> ✦</span>
+                        <span>✦ SOLID ✦</span>
+                        <span>✦ KOMPAK ✦</span>
+                        <span>✦ KREATIF ✦</span>
+                        <span>✦ BERPRESTASI ✦</span>
+                        <span>✦ <span class="highlight-tape">X-9 INVICTUS</span> ✦</span>
+                        <span>✦ SOLID ✦</span>
+                        <span>✦ KOMPAK ✦</span>
+                        <span>✦ KREATIF ✦</span>
+                        <span>✦ BERPRESTASI ✦</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RUNNING TEXT BACKGROUND -->
+            <div class="running-bg-wrapper">
+                <div class="running-bg" id="runningBg">
+                    <span>✦ X-9 INVICTUS ✦</span>
+                    <span>✦ SOLID ✦</span>
+                    <span>✦ KOMPAK ✦</span>
+                    <span>✦ KREATIF ✦</span>
+                    <span>✦ BERPRESTASI ✦</span>
+                    <span>✦ X-9 INVICTUS ✦</span>
+                    <span>✦ SOLID ✦</span>
+                    <span>✦ KOMPAK ✦</span>
+                    <span>✦ KREATIF ✦</span>
+                    <span>✦ BERPRESTASI ✦</span>
+                    <span>✦ X-9 INVICTUS ✦</span>
+                    <span>✦ SOLID ✦</span>
+                    <span>✦ KOMPAK ✦</span>
+                    <span>✦ KREATIF ✦</span>
+                    <span>✦ BERPRESTASI ✦</span>
+                </div>
+            </div>
+
             <div class="hero-container">
                 <div class="hero-content reveal">
                     <div class="hero-badge">
@@ -2187,7 +2495,9 @@
                         WELCOME TO OUR CLASS
                     </div>
                     <h1>
-                        X-<span class="gradient-text">9</span>
+                        <span class="title-3d" id="title3D">
+                            X-<span class="gradient-text" data-text="9">9</span>
+                        </span>
                         <span class="sub-title">INVICTUS</span>
                     </h1>
                     <p class="hero-description">
@@ -2204,7 +2514,7 @@
 
                 <div class="hero-card-wrapper">
                     <div class="hero-card">
-                        <img class="class-symbol"src="icon.jpg" alt="favicon">
+                        <img class="class-symbol" src="icon.jpg" alt="favicon">
                         <p>Solid • Kompak • Kreatif • Berprestasi</p>
                         <div class="mini-stats">
                             <div class="mini-stat"><strong>36</strong><span>Anggota</span></div>
@@ -2494,7 +2804,11 @@
                 <div class="footer-brand">
                     <a href="#home" class="logo">
                         <div class="logo-icon"><span>X9</span></div>
-                        <span>X-9 INVICTUS</span>
+                        <span class="logo-3d">
+                            <span class="logo-text">
+                                X-<span class="gradient-text-nav">9</span> INVICTUS
+                            </span>
+                        </span>
                     </a>
                     <p>Website resmi kelas X-9 Invictus yang menjadi tempat untuk mengenal, menyimpan cerita, dan
                         memperkenalkan keluarga besar X-9 Invictus.</p>
@@ -2640,7 +2954,6 @@
         const modalImage = document.getElementById('modalImage');
         const modalImageClose = document.getElementById('modalImageClose');
 
-        // Klik pada memory item untuk membuka popup
         document.querySelectorAll('.memory-item').forEach(item => {
             item.addEventListener('click', function() {
                 const imageSrc = this.dataset.image;
@@ -2652,7 +2965,6 @@
             });
         });
 
-        // Tutup popup
         function closeImageModal() {
             modalImageOverlay.classList.remove('active');
             document.body.style.overflow = '';
@@ -2736,6 +3048,44 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeModal();
         });
+
+        // --- SCROLL EFFECT: Running Text & Title 3D ---
+        const title3D = document.getElementById('title3D');
+        const runningTape = document.getElementById('runningTape');
+        const runningBg = document.getElementById('runningBg');
+        let titleScrolled = false;
+        let tapeScrolled = false;
+
+        window.addEventListener('scroll', function() {
+            const scrollY = window.scrollY;
+            const heroHeight = document.querySelector('.hero').offsetHeight;
+
+            // Title 3D effect - subtle rotate & fade
+            if (scrollY > heroHeight * 0.25 && !titleScrolled) {
+                title3D.classList.add('scroll-effect');
+                titleScrolled = true;
+            } else if (scrollY < heroHeight * 0.15 && titleScrolled) {
+                title3D.classList.remove('scroll-effect');
+                titleScrolled = false;
+            }
+
+            // Running tape - bergerak ke kanan atas & keluar layar
+            const progress = Math.min(scrollY / (heroHeight * 0.5), 1);
+
+            // Tape bergerak ke kanan atas (translateX positif, translateY negatif)
+            const translateX = progress * 80;
+            const translateY = -progress * 40;
+            const rotate = -6 + (progress * 4);
+            const opacity = 1 - (progress * 1.1);
+
+            runningTape.style.transform = `rotate(${rotate}deg) translate(${translateX}%, ${translateY}%)`;
+            runningTape.style.opacity = Math.max(0, opacity);
+
+            // Background running text - lebih lambat
+            const bgProgress = Math.min(scrollY / (heroHeight * 0.7), 1);
+            const bgOpacity = 0.15 - (bgProgress * 0.12);
+            runningBg.style.opacity = Math.max(0, bgOpacity);
+        }, { passive: true });
 
         // --- AUDIO PLAYER (AUTOPLAY & LOOP) ---
         const audio = document.getElementById('bgMusic');
