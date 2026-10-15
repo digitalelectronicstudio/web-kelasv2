@@ -43,6 +43,7 @@
             --gray-light: #e2e8f0;
 
             --gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #ec4899 100%);
+            --gradient-birthday: linear-gradient(135deg, #f472b6 0%, #ec4899 30%, #a855f7 70%, #6366f1 100%);
             --shadow: 0 20px 50px rgba(15, 23, 42, 0.10);
             --shadow-hover: 0 25px 70px rgba(99, 102, 241, 0.20);
         }
@@ -60,20 +61,143 @@
             line-height: 1.2;
         }
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        button {
-            font-family: inherit;
-        }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: inherit; }
 
         ::-webkit-scrollbar { width: 10px; }
         ::-webkit-scrollbar-track { background: #e2e8f0; }
         ::-webkit-scrollbar-thumb {
             background: var(--gradient);
             border-radius: 50px;
+        }
+
+        /* ============================================================
+                   BIRTHDAY BANNER
+                   ============================================================ */
+        .birthday-banner {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100001;
+            background: linear-gradient(90deg, #ec4899 0%, #a855f7 30%, #6366f1 70%, #ec4899 100%);
+            background-size: 200% 100%;
+            color: white;
+            padding: 12px 20px;
+            text-align: center;
+            font-family: "Poppins", sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            animation: bannerSlide 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), bannerGradient 4s linear infinite;
+            box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4);
+            transform: translateY(-100%);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .birthday-banner.show {
+            display: flex;
+            transform: translateY(0);
+            animation: bannerSlide 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), bannerGradient 4s linear infinite;
+        }
+
+        .birthday-banner .banner-icon {
+            font-size: 1.3rem;
+            animation: cakeBounce 1s ease-in-out infinite;
+        }
+
+        @keyframes cakeBounce {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-4px) rotate(-8deg); }
+            75% { transform: translateY(-4px) rotate(8deg); }
+        }
+
+        @keyframes bannerSlide {
+            0% { transform: translateY(-100%); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes bannerGradient {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .birthday-banner .banner-text {
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .birthday-banner .banner-name {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 3px 12px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .birthday-banner .banner-close {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .birthday-banner .banner-close:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-50%) rotate(90deg);
+        }
+
+        /* Birthday confetti */
+        .birthday-confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100000;
+            display: none;
+            overflow: hidden;
+        }
+
+        .birthday-confetti.active {
+            display: block;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            top: -20px;
+            width: 10px;
+            height: 10px;
+            opacity: 0.9;
+            animation: confettiFall linear infinite;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-20px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
         }
 
         /* ============================================================
@@ -372,11 +496,7 @@
             animation: barShine 1.5s ease-in-out infinite;
         }
 
-        @keyframes barFill {
-            0% { width: 0%; }
-            100% { width: 100%; }
-        }
-
+        @keyframes barFill { 0% { width: 0%; } 100% { width: 100%; } }
         @keyframes barShine {
             0% { transform: translateX(-100%); }
             100% { transform: translateX(100%); }
@@ -540,16 +660,8 @@
         }
 
         @keyframes logoMorphIn {
-            0% {
-                opacity: 0;
-                transform: scale(1.3) translateY(-5px);
-                filter: blur(4px);
-            }
-            100% {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-                filter: blur(0);
-            }
+            0% { opacity: 0; transform: scale(1.3) translateY(-5px); filter: blur(4px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
         }
 
         .logo:hover { transform: scale(1.02); }
@@ -1140,10 +1252,7 @@
         /* ============================================================
                    ABOUT
                    ============================================================ */
-        .about {
-            background: white;
-            overflow: hidden;
-        }
+        .about { background: white; overflow: hidden; }
 
         .about-grid {
             display: grid;
@@ -1354,606 +1463,12 @@
         }
 
         /* ============================================================
-                   STRUKTUR KELAS - ORGANOGRAM LAYOUT
+                   STRUKTUR KELAS - ORGANOGRAM
                    ============================================================ */
         .struktur {
             background: #f1f5f9;
             overflow: hidden;
         }
-
-        .organogram {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        /* Node Umum */
-        .org-node {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Kartu Node (box utama) */
-        .org-card {
-            background: white;
-            border: 2px solid #e5e7eb;
-            border-radius: 20px;
-            padding: 22px 28px;
-            min-width: 200px;
-            max-width: 240px;
-            text-align: center;
-            transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            position: relative;
-            box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
-        }
-
-        .org-card:hover {
-            transform: translateY(-6px);
-            border-color: #c7d2fe;
-            box-shadow: var(--shadow-hover);
-        }
-
-        /* Kartu Wali Kelas - Spesial */
-        .org-card.wali {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 28px 32px;
-            min-width: 240px;
-            box-shadow: 0 20px 50px rgba(99, 102, 241, 0.3);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .org-card.wali::before,
-        .org-card.wali::after {
-            content: "";
-            position: absolute;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-        }
-
-        .org-card.wali::before {
-            width: 200px;
-            height: 200px;
-            top: -80px;
-            right: -80px;
-        }
-
-        .org-card.wali::after {
-            width: 280px;
-            height: 280px;
-            bottom: -120px;
-            left: -120px;
-        }
-
-        .org-card.wali:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 30px 70px rgba(99, 102, 241, 0.45);
-            border-color: transparent;
-        }
-
-        .org-card.wali > * {
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Avatar */
-        .org-avatar {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid #e5e7eb;
-            margin: 0 auto 12px;
-            display: block;
-            background: #f1f5f9;
-            transition: 0.4s ease;
-        }
-
-        .org-card:hover .org-avatar {
-            border-color: #6366f1;
-            transform: scale(1.05);
-        }
-
-        .org-card.wali .org-avatar {
-            width: 90px;
-            height: 90px;
-            border: 4px solid rgba(255, 255, 255, 0.4);
-            background: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-        }
-
-        .org-card.wali:hover .org-avatar {
-            border-color: rgba(255, 255, 255, 0.8);
-            transform: scale(1.08) rotate(-3deg);
-        }
-
-        /* Role label */
-        .org-role {
-            font-family: "Poppins", sans-serif;
-            font-size: 0.68rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--primary);
-            margin-bottom: 6px;
-        }
-
-        .org-card.wali .org-role {
-            color: rgba(255, 255, 255, 0.85);
-            background: rgba(255, 255, 255, 0.15);
-            padding: 4px 14px;
-            border-radius: 50px;
-            display: inline-block;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-        }
-
-        /* Nama */
-        .org-name {
-            font-family: "Poppins", sans-serif;
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--dark);
-            margin-bottom: 2px;
-        }
-
-        .org-card.wali .org-name {
-            font-size: 1.4rem;
-            color: white;
-        }
-
-        .org-sub {
-            font-size: 0.72rem;
-            color: var(--gray);
-        }
-
-        .org-card.wali .org-sub {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        /* ============================================================
-                   GARIS PENGHUBUNG ORGANOGRAM
-                   ============================================================ */
-
-        /* Garis vertikal dari Wali Kelas ke Ketua Kelas */
-        .org-line-vertical {
-            width: 3px;
-            height: 40px;
-            background: linear-gradient(180deg, #c7d2fe, #a5b4fc);
-            border-radius: 2px;
-            position: relative;
-        }
-
-        .org-line-vertical::after {
-            content: "";
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #a5b4fc;
-        }
-
-        /* Garis vertikal panjang untuk percabangan */
-        .org-line-vertical-long {
-            width: 3px;
-            height: 50px;
-            background: linear-gradient(180deg, #c7d2fe, #a5b4fc);
-            border-radius: 2px;
-            position: relative;
-        }
-
-        .org-line-vertical-long::after {
-            content: "";
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #a5b4fc;
-        }
-
-        /* Container untuk baris sekretaris/bendahara */
-        .org-row {
-            display: flex;
-            gap: 100px;
-            position: relative;
-            justify-content: center;
-        }
-
-        /* Garis horizontal penghubung (percabangan) */
-        .org-branch {
-            position: relative;
-            width: 100%;
-            height: 3px;
-            display: flex;
-            justify-content: center;
-        }
-
-        /* Container untuk percabangan horizontal */
-        .org-branch-wrapper {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        /* Column wrapper untuk setiap cabang */
-        .org-column {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Garis horizontal atas */
-        .org-horizontal-line {
-            height: 3px;
-            background: linear-gradient(90deg, #c7d2fe, #a5b4fc);
-            border-radius: 2px;
-            position: relative;
-        }
-
-        /* Garis horizontal untuk percabangan ke 2 sekretaris */
-        .org-horizontal-split {
-            display: flex;
-            justify-content: center;
-            position: relative;
-            width: 100%;
-            max-width: 640px;
-            margin: 0 auto;
-        }
-
-        .org-horizontal-split::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 60px;
-            right: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, #c7d2fe, #a5b4fc);
-            border-radius: 2px;
-        }
-
-        /* Garis vertikal turun dari titik percabangan */
-        .org-down-line {
-            width: 3px;
-            height: 40px;
-            background: linear-gradient(180deg, #c7d2fe, #a5b4fc);
-            position: relative;
-            margin: 0 auto;
-        }
-
-        .org-down-line::after {
-            content: "";
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #a5b4fc;
-        }
-
-        /* Garis penghubung vertikal dari horizontal ke card */
-        .org-connector {
-            width: 3px;
-            height: 30px;
-            background: linear-gradient(180deg, #c7d2fe, #a5b4fc);
-            border-radius: 2px;
-            position: relative;
-        }
-
-        .org-connector::after {
-            content: "";
-            position: absolute;
-            bottom: -3px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #a5b4fc;
-        }
-
-        /* Struktur wrapper untuk sekretaris group */
-        .org-group {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
-
-        /* ============================================================
-                   SUSUNAN STRUKTUR (VERSION 2 - FLEXIBLE)
-                   ============================================================ */
-
-        /* Wrapper utama untuk struktur - versi flex */
-        .struktur-organogram {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            max-width: 850px;
-            margin: 0 auto;
-        }
-
-        /* Kartu wali kelas */
-        .struktur-organogram .wali-kelas-wrap {
-            position: relative;
-            z-index: 3;
-        }
-
-        /* Garis penghubung dasar */
-        .line-v {
-            width: 3px;
-            background: linear-gradient(180deg, #a5b4fc, #818cf8);
-            border-radius: 2px;
-            position: relative;
-        }
-
-        .line-v::after {
-            content: "";
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: #818cf8;
-            box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
-        }
-
-        .line-v.short { height: 38px; }
-        .line-v.medium { height: 48px; }
-        .line-v.long { height: 55px; }
-
-        /* Connector horizontal sederhana */
-        .line-h {
-            height: 3px;
-            background: linear-gradient(90deg, #a5b4fc, #818cf8, #a5b4fc);
-            border-radius: 2px;
-            position: relative;
-        }
-
-        /* Container percabangan */
-        .branch-container {
-            position: relative;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        /* Setiap cabang */
-        .branch-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
-
-        /* Garis vertikal ke bawah dari cabang */
-        .branch-item::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 3px;
-            height: 30px;
-            background: linear-gradient(180deg, #a5b4fc, #818cf8);
-            border-radius: 2px;
-        }
-
-        /* Garis horizontal percabangan atas */
-        .branch-horizontal {
-            position: relative;
-            width: 100%;
-            max-width: 700px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, #a5b4fc 15%, #818cf8 50%, #a5b4fc 85%, transparent);
-            border-radius: 2px;
-            margin-bottom: 0;
-        }
-
-        /* Down line dari horizontal ke bawah */
-        .branch-horizontal::before,
-        .branch-horizontal::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            width: 3px;
-            height: 30px;
-            background: linear-gradient(180deg, #a5b4fc, #818cf8);
-            border-radius: 2px;
-        }
-
-        .branch-horizontal::before {
-            left: 0;
-        }
-
-        .branch-horizontal::after {
-            right: 0;
-        }
-
-        /* Dot connector */
-        .dot {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: #818cf8;
-            box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        /* ============================================================
-                   STRUKTUR TREE - SIMPLE ORGANOGRAM
-                   ============================================================ */
-        .org-tree {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
-            padding: 20px 0;
-        }
-
-        /* LEVEL 1 - Wali Kelas */
-        .org-level-1 {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* Garis penghubung vertikal */
-        .org-v-line {
-            width: 3px;
-            height: 45px;
-            background: linear-gradient(180deg, #a5b4fc, #818cf8);
-            border-radius: 2px;
-            position: relative;
-            margin: 0 auto;
-        }
-
-        .org-v-line::after {
-            content: "";
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: #818cf8;
-            box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
-        }
-
-        /* LEVEL 2 - Ketua Kelas */
-        .org-level-2 {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        /* Percabangan ke bawah */
-        .org-branch-row {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            position: relative;
-            padding-top: 30px;
-            width: 100%;
-            max-width: 720px;
-        }
-
-        /* Setiap kolom cabang */
-        .org-branch-col {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
-
-        /* Garis horizontal percabangan */
-        .org-branch-row::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 25%;
-            right: 25%;
-            height: 3px;
-            background: linear-gradient(90deg, #a5b4fc, #818cf8, #a5b4fc);
-            border-radius: 2px;
-        }
-
-        /* Garis vertikal dari tiap kolom ke atas */
-        .org-branch-col::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 3px;
-            height: 30px;
-            background: linear-gradient(180deg, #a5b4fc, #818cf8);
-            border-radius: 2px;
-        }
-
-        /* Titik dot di atas cabang */
-        .org-branch-col::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: #818cf8;
-            box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
-        }
-
-        /* Garis vertikal dari tengah horizontal ke bawah */
-        .org-center-v {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 3px;
-            height: 30px;
-            background: linear-gradient(180deg, #818cf8, #a5b4fc);
-            border-radius: 2px;
-        }
-
-        .org-center-v::after {
-            content: "";
-            position: absolute;
-            bottom: -4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-            background: #818cf8;
-            box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
-        }
-
-        /* Setiap cabang memiliki sub percabangan untuk bendahara */
-        .org-sub-branch {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 8px;
-            position: relative;
-        }
-
-        .org-sub-branch .org-v-line {
-            height: 30px;
-        }
-
-        /* ============================================================
-                   ORGANOGRAM FINAL (DIRECT APPROACH)
-                   ============================================================ */
 
         .final-org {
             display: flex;
@@ -2094,18 +1609,24 @@
             color: white;
         }
 
-        /* Line penghubung */
-        .line-connector {
+        /* ====== GARIS PENGHUBUNG ORGANOGRAM (SEMPURNA MENYAMBUNG) ====== */
+
+        /* Garis vertikal tunggal */
+        .org-vline {
             width: 3px;
-            background: linear-gradient(180deg, #a5b4fc, #818cf8);
+            height: 45px;
+            background: linear-gradient(180deg, #c7d2fe, #a5b4fc);
             border-radius: 2px;
             position: relative;
+            margin: 0 auto;
+            flex-shrink: 0;
         }
 
-        .line-connector::after {
+        /* Garis vertikal dengan titik dot di ujung bawah */
+        .org-vline.dot-bottom::after {
             content: "";
             position: absolute;
-            bottom: -4px;
+            bottom: -5px;
             left: 50%;
             transform: translateX(-50%);
             width: 9px;
@@ -2113,24 +1634,56 @@
             border-radius: 50%;
             background: #818cf8;
             box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+            z-index: 4;
         }
 
-        .line-connector.h-45 { height: 45px; }
-        .line-connector.h-30 { height: 30px; }
+        /* Garis vertikal dengan titik dot di ujung atas */
+        .org-vline.dot-top::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #818cf8;
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+            z-index: 4;
+        }
 
-        /* Branch row - 2 kolom */
-        .branch-row {
+        /* Garis vertikal kedua ujungnya dot */
+        .org-vline.dot-both::before,
+        .org-vline.dot-both::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #818cf8;
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+            z-index: 4;
+        }
+
+        .org-vline.dot-both::before { top: -5px; }
+        .org-vline.dot-both::after { bottom: -5px; }
+
+        /* Branch Row - percabangan ke sekretaris */
+        .org-branch-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 60px;
             max-width: 620px;
             width: 100%;
             position: relative;
-            padding-top: 28px;
+            /* Padding-top untuk menyambung dengan garis horizontal di atas */
+            padding-top: 0;
         }
 
-        /* Garis horizontal atas percabangan */
-        .branch-row::before {
+        /* Garis horizontal penghubung antar 2 kolom */
+        .org-branch-row::before {
             content: "";
             position: absolute;
             top: 0;
@@ -2138,12 +1691,13 @@
             transform: translateX(-50%);
             width: calc(100% - 60px);
             height: 3px;
-            background: linear-gradient(90deg, #a5b4fc, #818cf8, #a5b4fc);
+            background: linear-gradient(90deg, #c7d2fe, #a5b4fc, #818cf8, #a5b4fc, #c7d2fe);
             border-radius: 2px;
+            z-index: 1;
         }
 
-        /* Titik dot di tengah atas */
-        .branch-row::after {
+        /* Titik dot di tengah garis horizontal */
+        .org-branch-row::after {
             content: "";
             position: absolute;
             top: 0;
@@ -2154,59 +1708,81 @@
             border-radius: 50%;
             background: #818cf8;
             box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
-            display: none;
+            z-index: 5;
         }
 
-        /* Setiap kolom */
-        .branch-col {
+        /* Setiap kolom bercabang */
+        .org-branch-col {
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
+            padding-top: 30px;
         }
 
-        /* Garis vertikal atas setiap kolom */
-        .branch-col::before {
+        /* Garis vertikal di atas setiap kolom (menyambung dari horizontal) */
+        .org-branch-col::before {
             content: "";
             position: absolute;
             top: 0;
             left: 50%;
             transform: translateX(-50%);
             width: 3px;
-            height: 28px;
+            height: 30px;
             background: linear-gradient(180deg, #a5b4fc, #818cf8);
             border-radius: 2px;
+            z-index: 2;
         }
 
-        /* Titik dot di atas setiap kolom */
-        .branch-col::after {
+        /* Titik dot di ujung atas setiap kolom */
+        .org-branch-col::after {
             content: "";
             position: absolute;
             top: 0;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 8px;
-            height: 8px;
+            width: 9px;
+            height: 9px;
             border-radius: 50%;
-            background: #a5b4fc;
+            background: #818cf8;
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+            z-index: 6;
         }
 
-        /* Vertikal line dari kolom ke card */
-        .branch-col > .line-connector {
-            height: 28px;
-            margin-top: 0;
+        /* Garis penghubung dari Sekretaris ke Bendahara */
+        .org-connector-line {
+            width: 3px;
+            height: 30px;
+            background: linear-gradient(180deg, #a5b4fc, #818cf8);
+            border-radius: 2px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .org-connector-line::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #818cf8;
+            box-shadow: 0 0 12px rgba(99, 102, 241, 0.5);
+            z-index: 4;
         }
 
         /* ============================================================
                    RESPONSIVE STRUKTUR
                    ============================================================ */
         @media (max-width: 750px) {
-            .branch-row {
+            .org-branch-row {
                 gap: 30px;
                 max-width: 100%;
             }
 
-            .branch-row::before {
+            .org-branch-row::before {
                 width: calc(100% - 30px);
             }
 
@@ -2230,16 +1806,13 @@
                 height: 70px;
             }
 
-            .node-name {
-                font-size: 0.9rem;
-            }
+            .node-name { font-size: 0.9rem; }
+            .node-card.node-wali .node-name { font-size: 1.15rem; }
 
-            .node-card.node-wali .node-name {
-                font-size: 1.15rem;
-            }
-
-            .line-connector.h-45 { height: 35px; }
-            .line-connector.h-30 { height: 25px; }
+            .org-vline { height: 35px; }
+            .org-branch-col { padding-top: 25px; }
+            .org-branch-col::before { height: 25px; }
+            .org-connector-line { height: 25px; }
         }
 
         @media (max-width: 480px) {
@@ -2270,36 +1843,21 @@
                 letter-spacing: 1.2px;
             }
 
-            .node-name {
-                font-size: 0.8rem;
-            }
+            .node-name { font-size: 0.8rem; }
+            .node-card.node-wali .node-name { font-size: 1rem; }
 
-            .node-card.node-wali .node-name {
-                font-size: 1rem;
-            }
+            .org-branch-row { gap: 15px; }
 
-            .branch-row {
-                gap: 15px;
-            }
-
-            .line-connector.h-45 { height: 28px; }
-            .line-connector.h-30 { height: 20px; }
-
-            .branch-row {
-                padding-top: 22px;
-            }
-
-            .branch-col::before {
-                height: 22px;
-            }
+            .org-vline { height: 28px; }
+            .org-branch-col { padding-top: 20px; }
+            .org-branch-col::before { height: 20px; }
+            .org-connector-line { height: 20px; }
         }
 
         /* ============================================================
                    VALUES
                    ============================================================ */
-        .values {
-            background: white;
-        }
+        .values { background: white; }
 
         .values-grid {
             display: grid;
@@ -2417,11 +1975,9 @@
         }
 
         /* ============================================================
-                   MEMBERS
+                   MEMBERS + BIRTHDAY STYLING
                    ============================================================ */
-        .members {
-            background: white;
-        }
+        .members { background: white; }
 
         .members-top {
             display: flex;
@@ -2468,6 +2024,8 @@
             gap: 15px;
             transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
 
         .member-card:hover {
@@ -2475,6 +2033,63 @@
             background: white;
             border-color: #c7d2fe;
             box-shadow: 0 15px 35px rgba(99, 102, 241, 0.12);
+        }
+
+        /* Birthday member card styling */
+        .member-card.birthday-today {
+            background: var(--gradient-birthday);
+            background-size: 300% 300%;
+            animation: birthdayGradient 4s ease infinite;
+            border-color: transparent;
+            box-shadow: 0 15px 40px rgba(236, 72, 153, 0.35),
+                        0 0 0 2px rgba(255, 255, 255, 0.5) inset;
+            position: relative;
+        }
+
+        @keyframes birthdayGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .member-card.birthday-today:hover {
+            box-shadow: 0 25px 55px rgba(236, 72, 153, 0.5),
+                        0 0 0 2px rgba(255, 255, 255, 0.7) inset;
+            transform: translateY(-5px) scale(1.03);
+        }
+
+        /* Icon cake di sudut birthday card */
+        .member-card.birthday-today::after {
+            content: "🎂";
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            font-size: 1.1rem;
+            animation: cakeFloat 2s ease-in-out infinite;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+            z-index: 5;
+        }
+
+        @keyframes cakeFloat {
+            0%, 100% { transform: translateY(0) rotate(-5deg); }
+            50% { transform: translateY(-3px) rotate(5deg); }
+        }
+
+        .member-card.birthday-today .member-number {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+
+        .member-card.birthday-today .member-info h3,
+        .member-card.birthday-today .member-info span {
+            color: white;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .member-card.birthday-today .member-avatar {
+            border-color: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
         }
 
         .member-avatar {
@@ -2492,9 +2107,14 @@
             font-weight: 700;
             color: var(--gray);
             transition: 0.3s ease;
+            position: relative;
+            z-index: 2;
         }
 
         .member-card:hover .member-avatar { border-color: #6366f1; }
+        .member-card.birthday-today:hover .member-avatar {
+            border-color: white;
+        }
 
         .member-number {
             width: 42px;
@@ -2509,10 +2129,17 @@
             font-size: 0.8rem;
             font-weight: 800;
             transition: 0.3s ease;
+            position: relative;
+            z-index: 2;
         }
 
         .member-card:hover .member-number {
             transform: rotate(6deg) scale(1.1);
+        }
+
+        .member-info {
+            position: relative;
+            z-index: 2;
         }
 
         .member-info h3 {
@@ -2729,9 +2356,7 @@
         /* ============================================================
                    ACTIVITIES
                    ============================================================ */
-        .activities {
-            background: #f8fafc;
-        }
+        .activities { background: #f8fafc; }
 
         .activity-grid {
             display: grid;
@@ -3004,7 +2629,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Modal image */
         .modal-image-overlay {
             position: fixed;
             inset: 0;
@@ -3035,9 +2659,7 @@
             cursor: default;
         }
 
-        .modal-image-overlay.active .modal-image-box {
-            transform: scale(1);
-        }
+        .modal-image-overlay.active .modal-image-box { transform: scale(1); }
 
         .modal-image-box img {
             max-width: 100%;
@@ -3548,6 +3170,22 @@
             }
 
             .morph-logo .morph-text { font-size: 1.05rem; }
+
+            .birthday-banner {
+                font-size: 0.75rem;
+                padding: 10px 45px 10px 15px;
+            }
+
+            .birthday-banner .banner-icon {
+                font-size: 1rem;
+            }
+
+            .birthday-banner .banner-close {
+                right: 12px;
+                width: 24px;
+                height: 24px;
+                font-size: 0.75rem;
+            }
         }
 
         @media (max-width: 480px) {
@@ -3638,11 +3276,37 @@
             }
 
             .morph-logo .morph-text { font-size: 0.9rem; }
+
+            .birthday-banner {
+                font-size: 0.65rem;
+                padding: 8px 40px 8px 10px;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .birthday-banner .banner-close {
+                right: 8px;
+                width: 20px;
+                height: 20px;
+                font-size: 0.65rem;
+            }
         }
     </style>
 </head>
 
 <body>
+    <!-- ==================== BIRTHDAY BANNER ==================== -->
+    <div class="birthday-banner" id="birthdayBanner">
+        <span class="banner-icon">🎂</span>
+        <span class="banner-text">Selamat Ulang Tahun</span>
+        <span class="banner-name" id="birthdayName">-</span>
+        <span class="banner-icon">🎉</span>
+        <button class="banner-close" id="birthdayClose" aria-label="Tutup">✕</button>
+    </div>
+
+    <!-- Confetti container -->
+    <div class="birthday-confetti" id="birthdayConfetti"></div>
+
     <!-- ==================== MORPH FLYING ELEMENT ==================== -->
     <div class="morph-logo" id="morphLogo" style="opacity: 0;">
         <div class="morph-icon">X9</div>
@@ -3886,7 +3550,7 @@
             </div>
         </section>
 
-        <!-- ==================== STRUKTUR KELAS - ORGANOGRAM ==================== -->
+        <!-- ==================== STRUKTUR KELAS ==================== -->
         <section class="struktur" id="struktur">
             <div class="section-container">
                 <div class="section-heading reveal">
@@ -3905,7 +3569,7 @@
                     </div>
 
                     <!-- Garis dari Wali Kelas ke Ketua Kelas -->
-                    <div class="line-connector h-45"></div>
+                    <div class="org-vline" style="height: 45px;"></div>
 
                     <!-- KETUA KELAS -->
                     <div class="node-card">
@@ -3914,21 +3578,30 @@
                         <div class="node-name">Vino</div>
                     </div>
 
-                    <!-- Garis dari Ketua Kelas ke percabangan -->
-                    <div class="line-connector h-30"></div>
+                    <!-- Garis dari Ketua Kelas ke Wakil Ketua -->
+                    <div class="org-vline" style="height: 45px;"></div>
+
+                    <!-- WAKIL KETUA -->
+                    <div class="node-card">
+                        <div class="node-role">Wakil Ketua</div>
+                        <img class="node-avatar" src="foto ratya.jpg" alt="Ratya" onerror="this.outerHTML='<div class=node-avatar style=display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,#ede9fe,#fce7f3);color:#6366f1;>R</div>'">
+                        <div class="node-name">Ratya</div>
+                    </div>
+
+                    <!-- Garis dari Wakil Ketua ke percabangan -->
+                    <div class="org-vline dot-bottom" style="height: 45px;"></div>
 
                     <!-- PERCABANGAN: SEKRETARIS I & II -->
-                    <div class="branch-row">
-                        <div class="branch-col">
-                            <div class="line-connector h-30"></div>
+                    <div class="org-branch-row">
+                        <!-- Kolom KIRI: Sekretaris I + Bendahara I -->
+                        <div class="org-branch-col">
                             <div class="node-card">
                                 <div class="node-role">Sekretaris I</div>
                                 <img class="node-avatar" src="foto melona.jpg" alt="Melona" onerror="this.outerHTML='<div class=node-avatar style=display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,#ede9fe,#fce7f3);color:#6366f1;>M</div>'">
                                 <div class="node-name">Melona</div>
                             </div>
 
-                            <!-- Garis dari Sekretaris I ke Bendahara I -->
-                            <div class="line-connector h-30"></div>
+                            <div class="org-connector-line"></div>
 
                             <div class="node-card">
                                 <div class="node-role">Bendahara I</div>
@@ -3937,16 +3610,15 @@
                             </div>
                         </div>
 
-                        <div class="branch-col">
-                            <div class="line-connector h-30"></div>
+                        <!-- Kolom KANAN: Sekretaris II + Bendahara II -->
+                        <div class="org-branch-col">
                             <div class="node-card">
                                 <div class="node-role">Sekretaris II</div>
                                 <img class="node-avatar" src="foto nolan.jpg" alt="Nolan" onerror="this.outerHTML='<div class=node-avatar style=display:flex;align-items:center;justify-content:center;font-size:1.8rem;font-weight:800;background:linear-gradient(135deg,#ede9fe,#fce7f3);color:#6366f1;>N</div>'">
                                 <div class="node-name">Nolan</div>
                             </div>
 
-                            <!-- Garis dari Sekretaris II ke Bendahara II -->
-                            <div class="line-connector h-30"></div>
+                            <div class="org-connector-line"></div>
 
                             <div class="node-card">
                                 <div class="node-role">Bendahara II</div>
@@ -4023,9 +3695,7 @@
                     </div>
                     <div class="member-count">36 Anggota</div>
                 </div>
-                <div class="members-grid" id="membersGrid">
-                    <!-- injected by JS -->
-                </div>
+                <div class="members-grid" id="membersGrid"></div>
             </div>
         </section>
 
@@ -4047,9 +3717,7 @@
                     <p>Klik pada gambar untuk melihat lebih jelas.</p>
                 </div>
 
-                <div class="memory-scroll reveal" id="memoryScroll">
-                    <!-- Memory items akan di inject oleh JavaScript -->
-                </div>
+                <div class="memory-scroll reveal" id="memoryScroll"></div>
             </div>
         </section>
 
@@ -4225,7 +3893,305 @@
 
     <!-- ==================== JAVASCRIPT ==================== -->
     <script>
-        // --- OPENING LOADER + MORPH ANIMATION ---
+        // --- DATA ANGGOTA ---
+        const membersData = [
+            { name: "Vino", number: 1, photo: "Alvino.png", nickname: "Vino", birth: "11 November 2010", hobby: "nonton film", motto: "Hidup itu seperti roda, terkadang di atas terkadang di bawah." },
+            { name: "Amora", number: 2, photo: "", nickname: "Amora", birth: "22 Maret 2008", hobby: "Membaca Buku", motto: "Buku adalah jendela dunia." },
+            { name: "Cencen", number: 3, photo: "", nickname: "Cencen", birth: "5 April 2008", hobby: "Bermain Basket", motto: "Kerja keras mengalahkan bakat ketika bakat tidak bekerja keras." },
+            { name: "Cathy", number: 4, photo: "foto cathy.jpg", nickname: "Cathy", birth: "9 Juni 2011", hobby: "Menggambar, main game", motto: "Tarian adalah puisi yang bergerak." },
+            { name: "Cellie", number: 5, photo: "foto cellie.jpg", nickname: "Cellie", birth: "12 Februari 2010", hobby: "Nonton drakor", motto: "Setiap foto menyimpan seribu cerita." },
+            { name: "Cherry", number: 6, photo: "", nickname: "Cherry", birth: "28 Juli 2008", hobby: "Menyanyi", motto: "Musik adalah bahasa universal." },
+            { name: "Kaia", number: 7, photo: "", nickname: "Kaia", birth: "3 Agustus 2008", hobby: "Melukis", motto: "Warna adalah emosi yang terlihat." },
+            { name: "luis", number: 8, photo: "foto luis.jpg", nickname: "luis", birth: "2 Agustus 2011", hobby: "Tidur, jalan jalan sama temen, memasak, melukis", motto: "Kata-kata memiliki kekuatan." },
+            { name: "Flo", number: 9, photo: "", nickname: "Flo", birth: "25 Oktober 2008", hobby: "Olahraga", motto: "Tubuh yang sehat, pikiran yang sehat." },
+            { name: "Ratya", number: 10, photo: "foto ratya.jpg", nickname: "Ratya", birth: "8 Juli 2010", hobby: "Basket", motto: "Puncak bukan tujuan, perjalanan adalah pelajaran." },
+            { name: "Geon", number: 11, photo: "", nickname: "Geon", birth: "7 Desember 2008", hobby: "Bersepeda", motto: "Terus melaju meski jalan terjal." },
+            { name: "Joice", number: 12, photo: "foto joice.jpg", nickname: "Joice", birth: "10 Maret 2011", hobby: "memasak, berenang, menonton, menyanyi", motto: "Makanan terbaik dibuat dengan cinta." },
+            { name: "Josh", number: 13, photo: "", nickname: "Josh", birth: "14 Februari 2009", hobby: "Futsal", motto: "Bermain dengan hati, menang dengan tim." },
+            { name: "Ale", number: 14, photo: "", nickname: "Ale", birth: "22 Maret 2009", hobby: "Bermain Gitar", motto: "Senar yang dipetik menghasilkan harmoni." },
+            { name: "Kate", number: 15, photo: "foto kate.jpg", nickname: "Kate", birth: "5 Juni 2011", hobby: "Crafts", motto: "Jangan berhenti sampai kau mencapai garis finish." },
+            { name: "Keiko", number: 16, photo: "", nickname: "Keiko", birth: "17 Mei 2009", hobby: "Menggambar", motto: "Imajinasi adalah awal dari kreasi." },
+            { name: "Ken", number: 17, photo: "", nickname: "Ken", birth: "9 Juni 2009", hobby: "Belajar Sejarah", motto: "Masa lalu adalah guru terbaik." },
+            { name: "Pelangi", number: 18, photo: "", nickname: "Pelangi", birth: "28 Juli 2009", hobby: "Bermain Piano", motto: "Melodi menyentuh jiwa." },
+            { name: "Marvel", number: 19, photo: "foto marvel.jpeg", nickname: "Marvel", birth: "11 Maret 2011", hobby: "Menikmati hidup", motto: "Setiap film adalah petualangan baru." },
+            { name: "Mathew", number: 20, photo: "foto mathew.jpg", nickname: "Mathew", birth: "22 Juni 2011", hobby: "Main basket, piano, dan game", motto: "Kode adalah sihir di dunia modern." },
+            { name: "Melona", number: 21, photo: "foto melona.jpg", nickname: "Melona", birth: "6 April 2011", hobby: "Menyanyi", motto: "Hidup ini seperti komik, penuh warna." },
+            { name: "Michael", number: 22, photo: "foto m.jpeg", nickname: "Michael", birth: "26 Maret 2011", hobby: "Web Development, musik, design", motto: "Bangun sesuatu yang bermanfaat bagi banyak orang." },
+            { name: "Tata", number: 23, photo: "foto tata.jpg", nickname: "Tata", birth: "5 Oktober 2010", hobby: "Baca buku & Menyanyi", motto: "Terus melompat untuk meraih yang tertinggi." },
+            { name: "Naufal", number: 24, photo: "foto n.jpeg", nickname: "Naufal", birth: "11 Desember 2010", hobby: "UI/UX Design, musik", motto: "Desain yang baik adalah desain yang tak terlihat." },
+            { name: "Neema", number: 25, photo: "foto neema.jpg", nickname: "Neema", birth: "7 April 2011", hobby: "Dance sama bikin cerita", motto: "Jahitan yang rapi mencerminkan ketelitian." },
+            { name: "Nolan", number: 26, photo: "foto nolan.jpg", nickname: "Nolan", birth: "14 Juli 2011", hobby: "Basket, Gambar", motto: "Strategi adalah kunci kemenangan." },
+            { name: "Quin", number: 27, photo: "foto quin.jpg", nickname: "Quin", birth: "7 Februari 2011", hobby: "Bermain Game", motto: "Game mengajarkan kerja sama tim." },
+            { name: "Raphael", number: 28, photo: "", nickname: "Raphael", birth: "17 Mei 2010", hobby: "Membaca Novel", motto: "Cerita membawa kita ke dunia lain." },
+            { name: "Revan", number: 29, photo: "", nickname: "Revan", birth: "9 Juni 2010", hobby: "Olahraga", motto: "Juara lahir dari latihan." },
+            { name: "Rifka", number: 30, photo: "foto salsa.jpg", nickname: "Rifka", birth: "16 Maret 2011", hobby: "Dance, nyanyi", motto: "Puisi adalah curahan jiwa." },
+            { name: "Kenny", number: 31, photo: "foto kenny.jpg", nickname: "Kenny", birth: "3 Agustus 2010", hobby: "Masak,Ndengerin musik", motto: "Irama adalah denyut kehidupan." },
+            { name: "Steffi", number: 32, photo: "foto steffi.jpeg", nickname: "Steffi", birth: "23 September 2011", hobby: "Menyanyi", motto: "Air adalah tempatku bebas." },
+            { name: "Tegar", number: 33, photo: "foto tegar.jpg", nickname: "Tegar", birth: "14 Agustus 2010", hobby: "memasak, journaling, traveling, bubuk ciang", motto: "Tumbuh bersama dengan alam." },
+            { name: "Xylon", number: 34, photo: "foto xylon.jpg", nickname: "Xylon", birth: "23 Juni 2011", hobby: "Main game, berenang", motto: "Masa depan adalah teknologi." },
+            { name: "Erin", number: 35, photo: "foto erin.jpg", nickname: "Erin", birth: "10 Agustus 2010", hobby: "Membaca Buku, Menyanyi", motto: "Masakan terbaik berasal dari hati." },
+            { name: "Laura", number: 36, photo: "laura.jpeg", nickname: "Laura", birth: "31 Mei 2011", hobby: "Memasak, mendengar lagu", motto: "Kanvas adalah dunia tanpa batas." }
+        ];
+
+        const memoryFiles = [
+            { label: "Momen Kebersamaan", file: "foto1.jpeg" },
+            { label: "Random", file: "foto2.jpeg" },
+            { label: "Kegiatan kelas", file: "foto3.jpeg" },
+            { label: "Prestasi", file: "foto prestasi.jpeg" }
+        ];
+
+        // ============================================================
+        // BIRTHDAY DETECTION & RENDERING
+        // ============================================================
+
+        // Konversi nama bulan Indonesia ke angka (1-12)
+        const monthMap = {
+            'januari': 1, 'februari': 2, 'maret': 3, 'april': 4,
+            'mei': 5, 'juni': 6, 'juli': 7, 'agustus': 8,
+            'september': 9, 'oktober': 10, 'november': 11, 'desember': 12
+        };
+
+        // Parse tanggal lahir dari string "14 Januari 2008" → {day: 14, month: 1}
+        function parseBirthDate(birthStr) {
+            if (!birthStr) return null;
+            const parts = birthStr.trim().split(/\s+/);
+            if (parts.length < 2) return null;
+
+            const day = parseInt(parts[0], 10);
+            const monthName = parts[1].toLowerCase();
+            const month = monthMap[monthName];
+
+            if (!day || !month) return null;
+            return { day, month };
+        }
+
+        // Cek apakah hari ini ulang tahun
+        function isBirthdayToday(birthStr) {
+            const parsed = parseBirthDate(birthStr);
+            if (!parsed) return false;
+
+            const today = new Date();
+            const todayDay = today.getDate();
+            const todayMonth = today.getMonth() + 1; // getMonth() returns 0-11
+
+            return parsed.day === todayDay && parsed.month === todayMonth;
+        }
+
+        // Cek ada berapa yang ulang tahun hari ini
+        function getTodayBirthdays() {
+            return membersData.filter(m => isBirthdayToday(m.birth));
+        }
+
+        // ============================================================
+        // RENDER MEMBERS
+        // ============================================================
+        const grid = document.getElementById('membersGrid');
+        grid.innerHTML = membersData.map(m => {
+            const hasFoto = m.photo && m.photo.length > 0;
+            const isBday = isBirthdayToday(m.birth);
+
+            const avatarHtml = hasFoto ?
+                `<img class="member-avatar" src="${m.photo}" alt="${m.name}" onerror="this.outerHTML='<div class=member-avatar style=display:flex;background:#f1f5f9;color:#64748b;font-weight:700;>${m.name[0]}</div>'">` :
+                `<div class="member-avatar" style="display:flex;background:#f1f5f9;color:#64748b;font-weight:700;">${m.name[0]}</div>`;
+
+            return `<div class="member-card reveal ${isBday ? 'birthday-today' : ''}" data-index="${m.number - 1}">
+                        ${avatarHtml}
+                        <div class="member-number">${String(m.number).padStart(2, '0')}</div>
+                        <div class="member-info">
+                            <h3>${m.name}</h3>
+                            <span>Member #${m.number}</span>
+                        </div>
+                    </div>`;
+        }).join('');
+
+        // ============================================================
+        // BIRTHDAY BANNER & CONFETTI
+        // ============================================================
+        (function initBirthday() {
+            const birthdays = getTodayBirthdays();
+            if (birthdays.length === 0) return;
+
+            const banner = document.getElementById('birthdayBanner');
+            const bannerName = document.getElementById('birthdayName');
+            const bannerClose = document.getElementById('birthdayClose');
+            const confetti = document.getElementById('birthdayConfetti');
+
+            // Set nama (kalau lebih dari 1, gabung dengan &)
+            const names = birthdays.map(b => b.name).join(' & ');
+            bannerName.textContent = names;
+
+            // Tampilkan banner setelah loader selesai (delay 5.5 detik)
+            setTimeout(() => {
+                banner.classList.add('show');
+
+                // Show confetti
+                confetti.classList.add('active');
+                createConfetti();
+
+                // Play sound effect? optional
+            }, 5500);
+
+            // Close button
+            bannerClose.addEventListener('click', () => {
+                banner.classList.remove('show');
+                confetti.classList.remove('active');
+            });
+
+            // Auto close after 12 seconds
+            setTimeout(() => {
+                banner.classList.remove('show');
+                confetti.classList.remove('active');
+            }, 17000);
+        })();
+
+        // Create confetti pieces
+        function createConfetti() {
+            const confetti = document.getElementById('birthdayConfetti');
+            const colors = ['#ec4899', '#a855f7', '#6366f1', '#f472b6', '#c084fc', '#818cf8', '#fbbf24', '#34d399'];
+            const shapes = ['circle', 'square', 'rect'];
+
+            // Clear existing
+            confetti.innerHTML = '';
+
+            for (let i = 0; i < 60; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+
+                const size = Math.random() * 8 + 6;
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const shape = shapes[Math.floor(Math.random() * shapes.length)];
+                const delay = Math.random() * 3;
+                const duration = Math.random() * 3 + 4;
+
+                piece.style.width = size + 'px';
+                piece.style.height = (shape === 'rect' ? size * 0.4 : size) + 'px';
+                piece.style.background = color;
+                piece.style.left = Math.random() * 100 + '%';
+                piece.style.borderRadius = shape === 'circle' ? '50%' : '2px';
+                piece.style.animationDuration = duration + 's';
+                piece.style.animationDelay = delay + 's';
+                piece.style.boxShadow = `0 0 8px ${color}80`;
+
+                confetti.appendChild(piece);
+            }
+        }
+
+        // ============================================================
+        // RENDER MEMORY GALLERY
+        // ============================================================
+        const memoryScroll = document.getElementById('memoryScroll');
+        memoryScroll.innerHTML = memoryFiles.map((m, index) => {
+            return `<div class="memory-item reveal" data-image="${m.file}">
+                        <img src="${m.file}" alt="${m.label}" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#1e293b,#0f172a)'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.color='#64748b'; this.style.fontSize='0.8rem'; this.innerHTML='📷 ${m.label}';">
+                        <span class="memory-badge">✦ Memori</span>
+                        <div class="memory-label">📸 <span>${m.label}</span></div>
+                    </div>`;
+        }).join('');
+
+        // --- MODAL IMAGE ---
+        const modalImageOverlay = document.getElementById('modalImageOverlay');
+        const modalImage = document.getElementById('modalImage');
+        const modalImageClose = document.getElementById('modalImageClose');
+
+        document.querySelectorAll('.memory-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const imageSrc = this.dataset.image;
+                if (imageSrc) {
+                    modalImage.src = imageSrc;
+                    modalImageOverlay.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        function closeImageModal() {
+            modalImageOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        modalImageClose.addEventListener('click', closeImageModal);
+        modalImageOverlay.addEventListener('click', function(e) {
+            if (e.target === this) closeImageModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeImageModal();
+        });
+
+        // --- MODAL PROFIL ---
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalClose = document.getElementById('modalClose');
+        const modalAvatar = document.getElementById('modalAvatar');
+        const modalName = document.getElementById('modalName');
+        const modalNumber = document.getElementById('modalNumber');
+        const modalBio = document.getElementById('modalBio');
+        const modalQuote = document.getElementById('modalQuote');
+
+        function openModal(index) {
+            const m = membersData[index];
+            if (!m) return;
+
+            if (m.photo && m.photo.length > 0) {
+                modalAvatar.src = m.photo;
+                modalAvatar.style.display = 'block';
+                modalAvatar.onerror = function() { this.style.display = 'none'; };
+            } else {
+                modalAvatar.style.display = 'none';
+            }
+
+            modalName.textContent = m.name;
+            modalNumber.textContent = `Member #${String(m.number).padStart(2, '0')}`;
+
+            const isBday = isBirthdayToday(m.birth);
+            const bdayTag = isBday ? ' 🎂' : '';
+
+            modalBio.innerHTML = `
+                <div class="modal-bio-item">
+                    <span class="label">📛 Nama Panggilan</span>
+                    <span class="value">${m.nickname}</span>
+                </div>
+                <div class="modal-bio-item">
+                    <span class="label">🎂 Tanggal Lahir</span>
+                    <span class="value">${m.birth}${bdayTag}</span>
+                </div>
+                <div class="modal-bio-item">
+                    <span class="label">🎯 Hobi</span>
+                    <span class="value">${m.hobby}</span>
+                </div>
+                <div class="modal-bio-item">
+                    <span class="label">💬 Motto</span>
+                    <span class="value"><span class="highlight-text">"${m.motto}"</span></span>
+                </div>
+            `;
+
+            modalQuote.textContent = m.motto;
+
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.querySelectorAll('.member-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const index = parseInt(this.dataset.index);
+                openModal(index);
+            });
+        });
+
+        modalClose.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // ============================================================
+        // OPENING LOADER + MORPH ANIMATION
+        // ============================================================
         (function() {
             const loader = document.getElementById('openingLoader');
             const loaderSkip = document.getElementById('loaderSkip');
@@ -4334,178 +4300,6 @@
 
             document.body.style.overflow = 'hidden';
         })();
-
-        // --- DATA ANGGOTA ---
-        const membersData = [
-            { name: "Vino", number: 1, photo: "Alvino.png", nickname: "Vino", birth: "11 November 2010", hobby: "nonton film", motto: "Hidup itu seperti roda, terkadang di atas terkadang di bawah." },
-            { name: "Amora", number: 2, photo: "", nickname: "Amora", birth: "22 Maret 2008", hobby: "Membaca Buku", motto: "Buku adalah jendela dunia." },
-            { name: "Cencen", number: 3, photo: "", nickname: "Cencen", birth: "5 April 2008", hobby: "Bermain Basket", motto: "Kerja keras mengalahkan bakat ketika bakat tidak bekerja keras." },
-            { name: "Cathy", number: 4, photo: "foto cathy.jpg", nickname: "Cathy", birth: "9 Juni 2011", hobby: "Menggambar, main game", motto: "Tarian adalah puisi yang bergerak." },
-            { name: "Cellie", number: 5, photo: "foto cellie.jpg", nickname: "Cellie", birth: "12 Februari 2010", hobby: "Nonton drakor", motto: "Setiap foto menyimpan seribu cerita." },
-            { name: "Cherry", number: 6, photo: "", nickname: "Cherry", birth: "28 Juli 2008", hobby: "Menyanyi", motto: "Musik adalah bahasa universal." },
-            { name: "Kaia", number: 7, photo: "", nickname: "Kaia", birth: "3 Agustus 2008", hobby: "Melukis", motto: "Warna adalah emosi yang terlihat." },
-            { name: "luis", number: 8, photo: "foto luis.jpg", nickname: "luis", birth: "2 Agustus 2011", hobby: "Tidur, jalan jalan sama temen, memasak, melukis", motto: "Kata-kata memiliki kekuatan." },
-            { name: "Flo", number: 9, photo: "", nickname: "Flo", birth: "25 Oktober 2008", hobby: "Olahraga", motto: "Tubuh yang sehat, pikiran yang sehat." },
-            { name: "Ratya", number: 10, photo: "foto ratya.jpg", nickname: "Ratya", birth: "8 Juli 2010", hobby: "Basket", motto: "Puncak bukan tujuan, perjalanan adalah pelajaran." },
-            { name: "Geon", number: 11, photo: "", nickname: "Geon", birth: "7 Desember 2008", hobby: "Bersepeda", motto: "Terus melaju meski jalan terjal." },
-            { name: "Joice", number: 12, photo: "foto joice.jpg", nickname: "Joice", birth: "10 Maret 2011", hobby: "memasak, berenang, menonton, menyanyi", motto: "Makanan terbaik dibuat dengan cinta." },
-            { name: "Josh", number: 13, photo: "", nickname: "Josh", birth: "14 Februari 2009", hobby: "Futsal", motto: "Bermain dengan hati, menang dengan tim." },
-            { name: "Ale", number: 14, photo: "", nickname: "Ale", birth: "22 Maret 2009", hobby: "Bermain Gitar", motto: "Senar yang dipetik menghasilkan harmoni." },
-            { name: "Kate", number: 15, photo: "foto kate.jpg", nickname: "Kate", birth: "5 Juni 2011", hobby: "Crafts", motto: "Jangan berhenti sampai kau mencapai garis finish." },
-            { name: "Keiko", number: 16, photo: "", nickname: "Keiko", birth: "17 Mei 2009", hobby: "Menggambar", motto: "Imajinasi adalah awal dari kreasi." },
-            { name: "Ken", number: 17, photo: "", nickname: "Ken", birth: "9 Juni 2009", hobby: "Belajar Sejarah", motto: "Masa lalu adalah guru terbaik." },
-            { name: "Pelangi", number: 18, photo: "", nickname: "Pelangi", birth: "28 Juli 2009", hobby: "Bermain Piano", motto: "Melodi menyentuh jiwa." },
-            { name: "Marvel", number: 19, photo: "foto marvel.jpeg", nickname: "Marvel", birth: "11 Maret 2011", hobby: "Menikmati hidup", motto: "Setiap film adalah petualangan baru." },
-            { name: "Mathew", number: 20, photo: "foto mathew.jpg", nickname: "Mathew", birth: "22 Juni 2011", hobby: "Main basket, piano, dan game", motto: "Kode adalah sihir di dunia modern." },
-            { name: "Melona", number: 21, photo: "foto melona.jpg", nickname: "Melona", birth: "6 April 2011", hobby: "Menyanyi", motto: "Hidup ini seperti komik, penuh warna." },
-            { name: "Michael", number: 22, photo: "foto m.jpeg", nickname: "Michael", birth: "26 Maret 2011", hobby: "Web Development, musik, design", motto: "Bangun sesuatu yang bermanfaat bagi banyak orang." },
-            { name: "Tata", number: 23, photo: "foto tata.jpg", nickname: "Tata", birth: "5 Oktober 2010", hobby: "Baca buku & Menyanyi", motto: "Terus melompat untuk meraih yang tertinggi." },
-            { name: "Naufal", number: 24, photo: "foto n.jpeg", nickname: "Naufal", birth: "11 Desember 2010", hobby: "UI/UX Design, musik", motto: "Desain yang baik adalah desain yang tak terlihat." },
-            { name: "Neema", number: 25, photo: "foto neema.jpg", nickname: "Neema", birth: "7 April 2011", hobby: "Dance sama bikin cerita", motto: "Jahitan yang rapi mencerminkan ketelitian." },
-            { name: "Nolan", number: 26, photo: "foto nolan.jpg", nickname: "Nolan", birth: "14 Juli 2011", hobby: "Basket, Gambar", motto: "Strategi adalah kunci kemenangan." },
-            { name: "Quin", number: 27, photo: "foto quin.jpg", nickname: "Quin", birth: "7 Februari 2011", hobby: "Bermain Game", motto: "Game mengajarkan kerja sama tim." },
-            { name: "Raphael", number: 28, photo: "", nickname: "Raphael", birth: "17 Mei 2010", hobby: "Membaca Novel", motto: "Cerita membawa kita ke dunia lain." },
-            { name: "Revan", number: 29, photo: "", nickname: "Revan", birth: "9 Juni 2010", hobby: "Olahraga", motto: "Juara lahir dari latihan." },
-            { name: "Rifka", number: 30, photo: "foto salsa.jpg", nickname: "Rifka", birth: "16 Maret 2011", hobby: "Dance, nyanyi", motto: "Puisi adalah curahan jiwa." },
-            { name: "Kenny", number: 31, photo: "foto kenny.jpg", nickname: "Kenny", birth: "3 Agustus 2010", hobby: "Masak, Ndengerin musik", motto: "Irama adalah denyut kehidupan." },
-            { name: "Steffi", number: 32, photo: "foto steffi.jpeg", nickname: "Steffi", birth: "23 September 2011", hobby: "Menyanyi", motto: "Air adalah tempatku bebas." },
-            { name: "Tegar", number: 33, photo: "foto tegar.jpg", nickname: "Tegar", birth: "14 Agustus 2010", hobby: "memasak, journaling, traveling, bubuk ciang", motto: "Tumbuh bersama dengan alam." },
-            { name: "Xylon", number: 34, photo: "foto xylon.jpg", nickname: "Xylon", birth: "23 Juni 2011", hobby: "Main game, berenang", motto: "Masa depan adalah teknologi." },
-            { name: "Erin", number: 35, photo: "foto erin.jpg", nickname: "Erin", birth: "10 Agustus 2010", hobby: "Membaca Buku, Menyanyi", motto: "Masakan terbaik berasal dari hati." },
-            { name: "Laura", number: 36, photo: "laura.jpeg", nickname: "Laura", birth: "31 Mei 2011", hobby: "Memasak, mendengar lagu", motto: "Kanvas adalah dunia tanpa batas." }
-        ];
-
-        const memoryFiles = [
-            { label: "Momen Kebersamaan", file: "foto1.jpeg" },
-            { label: "Random", file: "foto2.jpeg" },
-            { label: "Kegiatan kelas", file: "foto3.jpeg" },
-            { label: "Prestasi", file: "foto prestasi.jpeg" }
-        ];
-
-        // --- RENDER MEMBERS ---
-        const grid = document.getElementById('membersGrid');
-        grid.innerHTML = membersData.map(m => {
-            const hasFoto = m.photo && m.photo.length > 0;
-            const avatarHtml = hasFoto ?
-                `<img class="member-avatar" src="${m.photo}" alt="${m.name}" onerror="this.outerHTML='<div class=member-avatar style=display:flex;background:#f1f5f9;color:#64748b;font-weight:700;>${m.name[0]}</div>'">` :
-                `<div class="member-avatar" style="display:flex;background:#f1f5f9;color:#64748b;font-weight:700;">${m.name[0]}</div>`;
-            return `<div class="member-card reveal" data-index="${m.number - 1}">
-                            ${avatarHtml}
-                            <div class="member-number">${String(m.number).padStart(2, '0')}</div>
-                            <div class="member-info">
-                                <h3>${m.name}</h3>
-                                <span>Member #${m.number}</span>
-                            </div>
-                        </div>`;
-        }).join('');
-
-        // --- RENDER MEMORY GALLERY ---
-        const memoryScroll = document.getElementById('memoryScroll');
-        memoryScroll.innerHTML = memoryFiles.map((m, index) => {
-            return `<div class="memory-item reveal" data-image="${m.file}">
-                            <img src="${m.file}" alt="${m.label}" loading="lazy" onerror="this.style.background='linear-gradient(135deg,#1e293b,#0f172a)'; this.style.display='flex'; this.style.alignItems='center'; this.style.justifyContent='center'; this.style.color='#64748b'; this.style.fontSize='0.8rem'; this.innerHTML='📷 ${m.label}';">
-                            <span class="memory-badge">✦ Memori</span>
-                            <div class="memory-label">📸 <span>${m.label}</span></div>
-                        </div>`;
-        }).join('');
-
-        // --- MODAL IMAGE ---
-        const modalImageOverlay = document.getElementById('modalImageOverlay');
-        const modalImage = document.getElementById('modalImage');
-        const modalImageClose = document.getElementById('modalImageClose');
-
-        document.querySelectorAll('.memory-item').forEach(item => {
-            item.addEventListener('click', function() {
-                const imageSrc = this.dataset.image;
-                if (imageSrc) {
-                    modalImage.src = imageSrc;
-                    modalImageOverlay.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-            });
-        });
-
-        function closeImageModal() {
-            modalImageOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        modalImageClose.addEventListener('click', closeImageModal);
-        modalImageOverlay.addEventListener('click', function(e) {
-            if (e.target === this) closeImageModal();
-        });
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeImageModal();
-        });
-
-        // --- MODAL PROFIL ---
-        const modalOverlay = document.getElementById('modalOverlay');
-        const modalClose = document.getElementById('modalClose');
-        const modalAvatar = document.getElementById('modalAvatar');
-        const modalName = document.getElementById('modalName');
-        const modalNumber = document.getElementById('modalNumber');
-        const modalBio = document.getElementById('modalBio');
-        const modalQuote = document.getElementById('modalQuote');
-
-        function openModal(index) {
-            const m = membersData[index];
-            if (!m) return;
-
-            if (m.photo && m.photo.length > 0) {
-                modalAvatar.src = m.photo;
-                modalAvatar.style.display = 'block';
-                modalAvatar.onerror = function() { this.style.display = 'none'; };
-            } else {
-                modalAvatar.style.display = 'none';
-            }
-
-            modalName.textContent = m.name;
-            modalNumber.textContent = `Member #${String(m.number).padStart(2, '0')}`;
-
-            modalBio.innerHTML = `
-                <div class="modal-bio-item">
-                    <span class="label">📛 Nama Panggilan</span>
-                    <span class="value">${m.nickname}</span>
-                </div>
-                <div class="modal-bio-item">
-                    <span class="label">🎂 Tanggal Lahir</span>
-                    <span class="value">${m.birth}</span>
-                </div>
-                <div class="modal-bio-item">
-                    <span class="label">🎯 Hobi</span>
-                    <span class="value">${m.hobby}</span>
-                </div>
-                <div class="modal-bio-item">
-                    <span class="label">💬 Motto</span>
-                    <span class="value"><span class="highlight-text">"${m.motto}"</span></span>
-                </div>
-            `;
-
-            modalQuote.textContent = m.motto;
-
-            modalOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            modalOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        document.querySelectorAll('.member-card').forEach(card => {
-            card.addEventListener('click', function() {
-                const index = parseInt(this.dataset.index);
-                openModal(index);
-            });
-        });
-
-        modalClose.addEventListener('click', closeModal);
-        modalOverlay.addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeModal();
-        });
 
         // --- SCROLL EFFECT ---
         const title3D = document.getElementById('title3D');
